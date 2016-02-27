@@ -1,5 +1,10 @@
 {
   "name": "CP-8 Cookpad Bot",
   "description": "GitHub review bot",
-  "repository": "https://github.com/balvig/cp8"
+  "repository": "https://github.com/balvig/cp8",
+  "env": {
+    "OCTOKIT_ACCESS_TOKEN": {
+      "description": "GitHub oauth token for the bot user account"
+    }
+  }
 }
