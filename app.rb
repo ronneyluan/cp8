@@ -5,7 +5,7 @@ require "bundler"
 
 Bundler.require :default, ENV["RACK_ENV"].to_sym
 
-require "bornholm"
+require "cp8"
 
 post "/payload" do
   Payload.new_from_json(request.body.read).process
