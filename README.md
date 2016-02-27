@@ -1,2 +1,2 @@
-# CP-8 Cookpad Review Bot
+# CP-8 Cookpad Bot
 
