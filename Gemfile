@@ -1,7 +1,9 @@
 source "https://rubygems.org"
+ruby '2.2.2'
 
 gem "hashie"
 gem "octokit"
+gem "puma"
 gem "sinatra"
 
 group :development do
