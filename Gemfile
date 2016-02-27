@@ -1,9 +1,8 @@
 source "https://rubygems.org"
 
-gem "sinatra"
-gem "sinatra-contrib", require: "sinatra/contrib"
 gem "hashie"
 gem "octokit"
+gem "sinatra"
 
 group :development do
   gem "pry"
