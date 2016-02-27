@@ -14,7 +14,6 @@ class Event
     end
 
     def github
-      raise "OCTOKIT_ACCESS_TOKEN env variable not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
-      @github ||= Octokit::Client.new
+      Cp8.github_client
     end
 end

@@ -15,11 +15,9 @@ class Event
     private
 
       def init_labels
-        begin
-          github.label(repo, REVIEWED_LABEL)
-        rescue Octokit::NotFound
-          github.add_label(repo, REVIEWED_LABEL, REVIEWED_COLOR)
-        end
+        github.label(repo, REVIEWED_LABEL)
+      rescue Octokit::NotFound
+        github.add_label(repo, REVIEWED_LABEL, REVIEWED_COLOR)
       end
 
       def body
