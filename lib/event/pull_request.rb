@@ -14,11 +14,7 @@ class Event
       end
 
       def title
-        payload.pull_request.title
-      end
-
-      def number
-        payload.pull_request.number
+        issue.title
       end
   end
 end
