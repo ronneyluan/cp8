@@ -2,6 +2,7 @@ require "payload"
 require "event"
 require "event/comment"
 require "event/pull_request"
+require "label"
 
 class Cp8
   class << self

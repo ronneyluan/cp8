@@ -1,19 +1,29 @@
 class Event
+  attr_reader :payload
+
   def initialize(payload)
     @payload = payload
   end
 
   def process
-    raise "Not implemented"
+    raise "Implement this"
   end
 
   private
 
-    def repo
-      @payload.repository.full_name
+    def add_label(label)
+      Label.new(repo, label).add_to(issue)
     end
 
-    def github
-      Cp8.github_client
+    def remove_label(label)
+      Label.new(repo, label).remove_from(issue)
+    end
+
+    def repo
+      payload.repository.full_name
+    end
+
+    def issue
+      payload.issue || payload.pull_request
     end
 end
