@@ -1,15 +1,15 @@
 {
   "action": "created",
   "issue": {
-    "url": "https://api.github.com/repos/balvig/cp-8/issues/1",
+    "url": "https://api.github.com/repos/balvig/cp-8/issues/2",
     "repository_url": "https://api.github.com/repos/balvig/cp-8",
-    "labels_url": "https://api.github.com/repos/balvig/cp-8/issues/1/labels{/name}",
-    "comments_url": "https://api.github.com/repos/balvig/cp-8/issues/1/comments",
-    "events_url": "https://api.github.com/repos/balvig/cp-8/issues/1/events",
-    "html_url": "https://github.com/balvig/cp-8/pull/1",
-    "id": 136938221,
-    "number": 1,
-    "title": "Test for PR",
+    "labels_url": "https://api.github.com/repos/balvig/cp-8/issues/2/labels{/name}",
+    "comments_url": "https://api.github.com/repos/balvig/cp-8/issues/2/comments",
+    "events_url": "https://api.github.com/repos/balvig/cp-8/issues/2/events",
+    "html_url": "https://github.com/balvig/cp-8/issues/2",
+    "id": 137013866,
+    "number": 2,
+    "title": "Non-PR Issues shouldn't get labeled",
     "user": {
       "login": "balvig",
       "id": 104138,
@@ -36,23 +36,17 @@
     "locked": false,
     "assignee": null,
     "milestone": null,
-    "comments": 4,
-    "created_at": "2016-02-27T16:28:32Z",
-    "updated_at": "2016-02-27T17:01:12Z",
+    "comments": 1,
+    "created_at": "2016-02-28T06:28:06Z",
+    "updated_at": "2016-02-28T06:28:14Z",
     "closed_at": null,
-    "pull_request": {
-      "url": "https://api.github.com/repos/balvig/cp-8/pulls/1",
-      "html_url": "https://github.com/balvig/cp-8/pull/1",
-      "diff_url": "https://github.com/balvig/cp-8/pull/1.diff",
-      "patch_url": "https://github.com/balvig/cp-8/pull/1.patch"
-    },
-    "body": "testy"
+    "body": ""
   },
   "comment": {
-    "url": "https://api.github.com/repos/balvig/cp-8/issues/comments/189682850",
-    "html_url": "https://github.com/balvig/cp-8/pull/1#issuecomment-189682850",
-    "issue_url": "https://api.github.com/repos/balvig/cp-8/issues/1",
-    "id": 189682850,
+    "url": "https://api.github.com/repos/balvig/cp-8/issues/comments/189795018",
+    "html_url": "https://github.com/balvig/cp-8/issues/2#issuecomment-189795018",
+    "issue_url": "https://api.github.com/repos/balvig/cp-8/issues/2",
+    "id": 189795018,
     "user": {
       "login": "balvig",
       "id": 104138,
@@ -72,9 +66,9 @@
       "type": "User",
       "site_admin": false
     },
-    "created_at": "2016-02-27T17:01:12Z",
-    "updated_at": "2016-02-27T17:01:12Z",
-    "body": "One more time please :recycle:"
+    "created_at": "2016-02-28T06:28:14Z",
+    "updated_at": "2016-02-28T06:28:14Z",
+    "body": "I agree :+1: "
   },
   "repository": {
     "id": 52675348,
@@ -99,7 +93,7 @@
       "type": "User",
       "site_admin": false
     },
-    "private": true,
+    "private": false,
     "html_url": "https://github.com/balvig/cp-8",
     "description": null,
     "fork": false,
@@ -141,14 +135,14 @@
     "releases_url": "https://api.github.com/repos/balvig/cp-8/releases{/id}",
     "deployments_url": "https://api.github.com/repos/balvig/cp-8/deployments",
     "created_at": "2016-02-27T16:12:17Z",
-    "updated_at": "2016-02-27T16:12:55Z",
-    "pushed_at": "2016-02-27T16:28:32Z",
+    "updated_at": "2016-02-27T20:09:25Z",
+    "pushed_at": "2016-02-28T06:23:43Z",
     "git_url": "git://github.com/balvig/cp-8.git",
     "ssh_url": "git@github.com:balvig/cp-8.git",
     "clone_url": "https://github.com/balvig/cp-8.git",
     "svn_url": "https://github.com/balvig/cp-8",
     "homepage": null,
-    "size": 2,
+    "size": 14,
     "stargazers_count": 0,
     "watchers_count": 0,
     "language": "Ruby",
@@ -158,9 +152,9 @@
     "has_pages": false,
     "forks_count": 0,
     "mirror_url": null,
-    "open_issues_count": 1,
+    "open_issues_count": 2,
     "forks": 0,
-    "open_issues": 1,
+    "open_issues": 2,
     "watchers": 0,
     "default_branch": "master"
   },
