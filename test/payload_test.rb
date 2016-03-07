@@ -18,8 +18,15 @@ class PayloadTest < Minitest::Test
   end
 
   def test_adding_reviewed_label_if_given_recyle
+    github.expects(:labels_for_issue).with("balvig/cp-8", 1).once.returns([stub(name: "Reviewed")])
     github.expects(:remove_label).with("balvig/cp-8", 1, :Reviewed).once
     create_payload(:comment_recycle).process
+  end
+
+  def test_ignoring_comment_if_already_added
+    github.expects(:labels_for_issue).with("balvig/cp-8", 1).once.returns([stub(name: "Reviewed")])
+    github.expects(:add_labels_to_an_issue).never
+    create_payload(:comment_plus_one).process
   end
 
   def test_not_adding_labels_to_plain_issues
@@ -42,6 +49,6 @@ class PayloadTest < Minitest::Test
     end
 
     def github
-      @github ||= stub(label: true, add_label: true)
+      @github ||= stub(label: true, add_label: true, labels_for_issue: [])
     end
 end
