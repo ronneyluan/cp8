@@ -15,4 +15,5 @@ group :test do
   gem "minitest-reporters"
   gem "mocha"
   gem "rack-test", require: "rack/test"
+  gem "rake"
 end
