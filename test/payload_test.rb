@@ -44,7 +44,7 @@ class PayloadTest < Minitest::Test
   private
 
     def create_payload(file)
-      json = File.read File.expand_path("../fixtures/#{file}.json", __FILE__)
+      json = File.read File.expand_path("../fixtures/#{file}.json", __FILE__), encoding: "UTF-8"
       Payload.new_from_json(json)
     end
 
