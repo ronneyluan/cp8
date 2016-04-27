@@ -12,9 +12,14 @@ class PayloadTest < Minitest::Test
     create_payload(:comment_plus_one).process
   end
 
-  def test_adding_reviewed_label_if_given_plus_one
+  def test_adding_reviewed_label_if_given_emoji_plus_one
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Reviewed]).once
     create_payload(:comment_plus_one).process
+  end
+
+  def test_adding_reviewed_label_if_given_legacy_plus_one
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Reviewed]).once
+    create_payload(:comment_legacy_plus_one).process
   end
 
   def test_adding_reviewed_label_if_given_recyle

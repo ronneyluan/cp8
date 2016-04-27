@@ -1,13 +1,13 @@
 class Event
   class Comment < Event
-    PLUS_ONE = "👍 "
-    RECYCLE = "♻️"
+    PLUS_ONE = ["👍 ", ":+1:"]
+    RECYCLE = ["♻️", ":recycle:"]
 
     def process
       case
-      when body.include?(PLUS_ONE)
+      when PLUS_ONE.any? { |word| body.include?(word) }
         add_label(:Reviewed)
-      when body.include?(RECYCLE)
+      when RECYCLE.any? { |word| body.include?(word) }
         remove_label(:Reviewed)
       end
     end
