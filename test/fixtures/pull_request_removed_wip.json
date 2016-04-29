@@ -1,17 +1,17 @@
 {
-  "action": "opened",
+  "action": "edited",
   "number": 1,
   "pull_request": {
-    "url": "https://api.github.com/repos/balvig/cp-8/pulls/3",
-    "id": 60989427,
-    "html_url": "https://github.com/balvig/cp-8/pull/3",
-    "diff_url": "https://github.com/balvig/cp-8/pull/3.diff",
-    "patch_url": "https://github.com/balvig/cp-8/pull/3.patch",
-    "issue_url": "https://api.github.com/repos/balvig/cp-8/issues/3",
+    "url": "https://api.github.com/repos/balvig/cp-8/pulls/1",
+    "id": 60955659,
+    "html_url": "https://github.com/balvig/cp-8/pull/1",
+    "diff_url": "https://github.com/balvig/cp-8/pull/1.diff",
+    "patch_url": "https://github.com/balvig/cp-8/pull/1.patch",
+    "issue_url": "https://api.github.com/repos/balvig/cp-8/issues/1",
     "number": 1,
     "state": "open",
     "locked": false,
-    "title": "[WIP] Update README.md",
+    "title": "Test for PR",
     "user": {
       "login": "balvig",
       "id": 104138,
@@ -31,23 +31,23 @@
       "type": "User",
       "site_admin": false
     },
-    "body": "",
-    "created_at": "2016-02-28T12:13:04Z",
-    "updated_at": "2016-02-28T12:13:04Z",
+    "body": "testy",
+    "created_at": "2016-02-27T16:28:32Z",
+    "updated_at": "2016-04-29T00:05:56Z",
     "closed_at": null,
     "merged_at": null,
-    "merge_commit_sha": null,
+    "merge_commit_sha": "f59620f11f07c40f438f16734245f96f980dd8bb",
     "assignee": null,
     "milestone": null,
-    "commits_url": "https://api.github.com/repos/balvig/cp-8/pulls/3/commits",
-    "review_comments_url": "https://api.github.com/repos/balvig/cp-8/pulls/3/comments",
+    "commits_url": "https://api.github.com/repos/balvig/cp-8/pulls/1/commits",
+    "review_comments_url": "https://api.github.com/repos/balvig/cp-8/pulls/1/comments",
     "review_comment_url": "https://api.github.com/repos/balvig/cp-8/pulls/comments{/number}",
-    "comments_url": "https://api.github.com/repos/balvig/cp-8/issues/3/comments",
-    "statuses_url": "https://api.github.com/repos/balvig/cp-8/statuses/553f35af42dd15b4d13aad9071cc7992559d484c",
+    "comments_url": "https://api.github.com/repos/balvig/cp-8/issues/1/comments",
+    "statuses_url": "https://api.github.com/repos/balvig/cp-8/statuses/18515a510fdc03e4010024d17138f52eee9ef88f",
     "head": {
-      "label": "balvig:balvig-patch-2",
-      "ref": "balvig-patch-2",
-      "sha": "553f35af42dd15b4d13aad9071cc7992559d484c",
+      "label": "balvig:balvig-patch-1",
+      "ref": "balvig-patch-1",
+      "sha": "18515a510fdc03e4010024d17138f52eee9ef88f",
       "user": {
         "login": "balvig",
         "id": 104138,
@@ -133,13 +133,13 @@
         "deployments_url": "https://api.github.com/repos/balvig/cp-8/deployments",
         "created_at": "2016-02-27T16:12:17Z",
         "updated_at": "2016-02-28T12:10:08Z",
-        "pushed_at": "2016-02-28T12:12:52Z",
+        "pushed_at": "2016-04-27T20:55:59Z",
         "git_url": "git://github.com/balvig/cp-8.git",
         "ssh_url": "git@github.com:balvig/cp-8.git",
         "clone_url": "https://github.com/balvig/cp-8.git",
         "svn_url": "https://github.com/balvig/cp-8",
         "homepage": "",
-        "size": 19,
+        "size": 23,
         "stargazers_count": 0,
         "watchers_count": 0,
         "language": "Ruby",
@@ -149,9 +149,9 @@
         "has_pages": false,
         "forks_count": 0,
         "mirror_url": null,
-        "open_issues_count": 2,
+        "open_issues_count": 1,
         "forks": 0,
-        "open_issues": 2,
+        "open_issues": 1,
         "watchers": 0,
         "default_branch": "master"
       }
@@ -159,7 +159,7 @@
     "base": {
       "label": "balvig:master",
       "ref": "master",
-      "sha": "5fc1322f1651bb2f10728a0a326eba06c0291bfa",
+      "sha": "8b36beb7652013af060d23d77a05f3bdd485b252",
       "user": {
         "login": "balvig",
         "id": 104138,
@@ -245,13 +245,13 @@
         "deployments_url": "https://api.github.com/repos/balvig/cp-8/deployments",
         "created_at": "2016-02-27T16:12:17Z",
         "updated_at": "2016-02-28T12:10:08Z",
-        "pushed_at": "2016-02-28T12:12:52Z",
+        "pushed_at": "2016-04-27T20:55:59Z",
         "git_url": "git://github.com/balvig/cp-8.git",
         "ssh_url": "git@github.com:balvig/cp-8.git",
         "clone_url": "https://github.com/balvig/cp-8.git",
         "svn_url": "https://github.com/balvig/cp-8",
         "homepage": "",
-        "size": 19,
+        "size": 23,
         "stargazers_count": 0,
         "watchers_count": 0,
         "language": "Ruby",
@@ -261,49 +261,54 @@
         "has_pages": false,
         "forks_count": 0,
         "mirror_url": null,
-        "open_issues_count": 2,
+        "open_issues_count": 1,
         "forks": 0,
-        "open_issues": 2,
+        "open_issues": 1,
         "watchers": 0,
         "default_branch": "master"
       }
     },
     "_links": {
       "self": {
-        "href": "https://api.github.com/repos/balvig/cp-8/pulls/3"
+        "href": "https://api.github.com/repos/balvig/cp-8/pulls/1"
       },
       "html": {
-        "href": "https://github.com/balvig/cp-8/pull/3"
+        "href": "https://github.com/balvig/cp-8/pull/1"
       },
       "issue": {
-        "href": "https://api.github.com/repos/balvig/cp-8/issues/3"
+        "href": "https://api.github.com/repos/balvig/cp-8/issues/1"
       },
       "comments": {
-        "href": "https://api.github.com/repos/balvig/cp-8/issues/3/comments"
+        "href": "https://api.github.com/repos/balvig/cp-8/issues/1/comments"
       },
       "review_comments": {
-        "href": "https://api.github.com/repos/balvig/cp-8/pulls/3/comments"
+        "href": "https://api.github.com/repos/balvig/cp-8/pulls/1/comments"
       },
       "review_comment": {
         "href": "https://api.github.com/repos/balvig/cp-8/pulls/comments{/number}"
       },
       "commits": {
-        "href": "https://api.github.com/repos/balvig/cp-8/pulls/3/commits"
+        "href": "https://api.github.com/repos/balvig/cp-8/pulls/1/commits"
       },
       "statuses": {
-        "href": "https://api.github.com/repos/balvig/cp-8/statuses/553f35af42dd15b4d13aad9071cc7992559d484c"
+        "href": "https://api.github.com/repos/balvig/cp-8/statuses/18515a510fdc03e4010024d17138f52eee9ef88f"
       }
     },
     "merged": false,
-    "mergeable": null,
-    "mergeable_state": "unknown",
+    "mergeable": false,
+    "mergeable_state": "dirty",
     "merged_by": null,
-    "comments": 0,
+    "comments": 36,
     "review_comments": 0,
     "commits": 1,
     "additions": 1,
     "deletions": 1,
     "changed_files": 1
+  },
+  "changes": {
+    "title": {
+      "from": "[WIP] Test for PR"
+    }
   },
   "repository": {
     "id": 52675348,
@@ -371,13 +376,13 @@
     "deployments_url": "https://api.github.com/repos/balvig/cp-8/deployments",
     "created_at": "2016-02-27T16:12:17Z",
     "updated_at": "2016-02-28T12:10:08Z",
-    "pushed_at": "2016-02-28T12:12:52Z",
+    "pushed_at": "2016-04-27T20:55:59Z",
     "git_url": "git://github.com/balvig/cp-8.git",
     "ssh_url": "git@github.com:balvig/cp-8.git",
     "clone_url": "https://github.com/balvig/cp-8.git",
     "svn_url": "https://github.com/balvig/cp-8",
     "homepage": "",
-    "size": 19,
+    "size": 23,
     "stargazers_count": 0,
     "watchers_count": 0,
     "language": "Ruby",
@@ -387,9 +392,9 @@
     "has_pages": false,
     "forks_count": 0,
     "mirror_url": null,
-    "open_issues_count": 2,
+    "open_issues_count": 1,
     "forks": 0,
-    "open_issues": 2,
+    "open_issues": 1,
     "watchers": 0,
     "default_branch": "master"
   },
