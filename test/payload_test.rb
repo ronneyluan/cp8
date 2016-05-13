@@ -2,7 +2,15 @@ require "test_helper"
 
 class PayloadTest < Minitest::Test
   def setup
+    ENV["TZ"] = "UTC"
+    Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
+  end
+
+  def test_closing_stale_prs
+    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-11-27T00:00:00+00:00").once.returns(stub(items: [stub(number: 1)]))
+    github.expects(:add_comment)
+    create_payload(:pull_request_removed_wip).process
   end
 
   def test_creating_labels_if_they_dont_exist
@@ -69,6 +77,6 @@ class PayloadTest < Minitest::Test
     end
 
     def github
-      @github ||= stub(label: true, add_label: true, labels_for_issue: [])
+      @github ||= stub(label: true, add_label: true, labels_for_issue: [], search_issues: stub(items: []))
     end
 end
