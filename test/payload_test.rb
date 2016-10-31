@@ -30,6 +30,11 @@ class PayloadTest < Minitest::Test
     create_payload(:comment_legacy_plus_one).process
   end
 
+  def test_adding_reviewed_label_if_approved_review_submitted
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Reviewed]).once
+    create_payload(:review_approved).process
+  end
+
   def test_removing_reviewed_label_if_given_recyle
     github.expects(:labels_for_issue).with("balvig/cp-8", 1).once.returns([stub(name: "Reviewed")])
     github.expects(:remove_label).with("balvig/cp-8", 1, :Reviewed).once

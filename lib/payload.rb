@@ -7,10 +7,12 @@ class Payload < Hashie::Mash
 
   def process
     case
+    when review?
+      Events::Review.new(self).process
     when pull_request?
-      Event::PullRequest.new(self).process
+      Events::PullRequest.new(self).process
     when comment? && issue.pull_request?
-      Event::Comment.new(self).process
+      Events::Comment.new(self).process
     end
   end
 end
