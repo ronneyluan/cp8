@@ -1,7 +1,8 @@
 require "payload"
-require "event"
-require "event/comment"
-require "event/pull_request"
+require "events/event"
+require "events/comment"
+require "events/pull_request"
+require "events/review"
 require "label"
 
 class Cp8

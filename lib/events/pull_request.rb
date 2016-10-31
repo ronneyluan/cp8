@@ -1,4 +1,4 @@
-class Event
+module Events
   class PullRequest < Event
     WEEK = 7 * 24 * 60 * 60
 

@@ -1,4 +1,4 @@
-class Event
+module Events
   class Comment < Event
     PLUS_ONE = ["👍", ":+1:"]
     RECYCLE = ["♻️", ":recycle:"]
