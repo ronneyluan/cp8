@@ -7,5 +7,6 @@
 ## Usage
 
 - Commenting :+1: adds `Reviewed` label
+- Approving changes adds `Reviewed` label
 - Commenting :recycle: removes `Reviewed` label
 - Opening a PR with "[WIP]" in the title adds `WIP` label
