@@ -5,7 +5,7 @@ class Trello
     TrelloFlow::Api::Base.configure key: key, token: token
   end
 
-  def finish_card(id)
-    TrelloFlow::Api::Card.find(id).finish
+  def update_card(id, status:)
+    TrelloFlow::Api::Card.find(id).send(status)
   end
 end
