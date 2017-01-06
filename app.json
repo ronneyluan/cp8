@@ -5,6 +5,12 @@
   "env": {
     "OCTOKIT_ACCESS_TOKEN": {
       "description": "GitHub oauth token for the bot user account"
+    },
+    "TRELLO_KEY": {
+      "description": "Trello app key if using Trello integration"
+    },
+    "TRELLO_TOKEN": {
+      "description": "Trello token if using Trello integration"
     }
   }
 }
