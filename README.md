@@ -4,7 +4,7 @@
 
 <img src="https://cloud.githubusercontent.com/assets/104138/13375017/617ffdd0-dd95-11e5-9b59-87605963b351.png" width="40%"/>
 
-## Usage test
+## Usage
 
 - Commenting :+1: adds `Reviewed` label
 - Approving changes adds `Reviewed` label
