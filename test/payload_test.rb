@@ -5,6 +5,7 @@ class PayloadTest < Minitest::Test
     ENV["TZ"] = "UTC"
     Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
+    Cp8.trello_client = trello
   end
 
   def test_closing_stale_prs
@@ -74,6 +75,16 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_removed_wip).process
   end
 
+  def test_updating_trello_when_submitting_pr
+    trello.expects(:update_card).with("1234", status: :finish).once
+    create_payload(:pull_request_delivers).process
+  end
+
+  def test_updating_trello_when_closing_pr
+    trello.expects(:update_card).with("1234", status: :accept).once
+    create_payload(:pull_request_closed).process
+  end
+
   private
 
     def create_payload(file)
@@ -82,6 +93,10 @@ class PayloadTest < Minitest::Test
     end
 
     def github
-      @github ||= stub(label: true, add_label: true, labels_for_issue: [], search_issues: stub(items: []))
+      @_github ||= stub(label: true, add_label: true, labels_for_issue: [], search_issues: stub(items: []))
+    end
+
+    def trello
+      @_trello ||= stub
     end
 end

@@ -4,13 +4,14 @@ module Events
 
     def process
       case
-      when opened? && title.include?("[WIP]")
-        add_label(:WIP)
-      when edited? && title.include?("[WIP]")
+      when closed?
+        update_card(:accept)
+      when wip?
         add_label(:WIP)
         remove_label(:Reviewed)
-      when edited? && !title.include?("[WIP]")
+      when !wip?
         remove_label(:WIP)
+        update_card(:finish)
       end
       report_stale_issues
     end
@@ -25,8 +26,25 @@ module Events
         payload.action == "opened"
       end
 
+      def closed?
+        payload.action == "closed"
+      end
+
+      def wip?
+        title.include?("[WIP]")
+      end
+
       def title
         issue.title
+      end
+
+      def update_card(status)
+        return unless trello_card_id
+        trello.update_card(trello_card_id, status: status)
+      end
+
+      def trello_card_id
+        title[/\[Delivers #(\S+)\]/, 1]
       end
 
       def report_stale_issues
@@ -45,6 +63,10 @@ module Events
 
       def github
         Cp8.github_client
+      end
+
+      def trello
+        Cp8.trello_client
       end
   end
 end
