@@ -77,6 +77,7 @@ class PayloadTest < Minitest::Test
 
   def test_updating_trello_when_submitting_pr
     trello.expects(:update_card).with("1234", status: :finish).once
+    trello.expects(:attach).with("1234", url: "https://github.com/balvig/cp-8/pull/3")
     create_payload(:pull_request_delivers).process
   end
 
