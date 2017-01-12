@@ -13,6 +13,8 @@ module Events
         remove_label(:WIP)
         update_card(:finish)
       end
+
+      attach_to_card if opened?
       report_stale_issues
     end
 
@@ -36,6 +38,15 @@ module Events
 
       def title
         issue.title
+      end
+
+      def url
+        issue.html_url
+      end
+
+      def attach_to_card
+        return unless trello_card_id
+        trello.attach(trello_card_id, url: url)
       end
 
       def update_card(status)
