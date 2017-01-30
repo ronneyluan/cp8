@@ -5,24 +5,20 @@ module Events
     def process
       case
       when closed?
-        update_card(:accept)
+        update_cards(:accept)
       when wip?
         add_label(:WIP)
         remove_label(:Reviewed)
       when !wip?
         remove_label(:WIP)
-        update_card(:finish)
+        update_cards(:finish)
       end
 
-      attach_to_card if opened?
+      attach_to_cards if opened?
       report_stale_issues
     end
 
     private
-
-      def edited?
-        payload.action == "edited"
-      end
 
       def opened?
         payload.action == "opened"
@@ -44,18 +40,24 @@ module Events
         issue.html_url
       end
 
-      def attach_to_card
-        return unless trello_card_id
-        trello.attach(trello_card_id, url: url)
+      def attach_to_cards
+        card_ids.each do |id|
+          trello.attach(id, url: url)
+        end
       end
 
-      def update_card(status)
-        return unless trello_card_id
-        trello.update_card(trello_card_id, status: status)
+      def update_cards(status)
+        card_ids.each do |id|
+          trello.update_card(id, status: status)
+        end
       end
 
-      def trello_card_id
-        title[/\[Delivers #(\S+)\]/, 1]
+      def card_ids
+        delivers_meta_info.scan(/(?:#(\w+))/).flatten
+      end
+
+      def delivers_meta_info
+        title[/\[Delivers.+\]/] || ""
       end
 
       def report_stale_issues
