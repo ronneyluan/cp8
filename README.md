@@ -6,9 +6,7 @@
 
 ## Usage
 
-- Commenting :+1: adds `Reviewed` label
-- Approving changes adds `Reviewed` label
-- Commenting :recycle: removes `Reviewed` label
 - Opening a PR with "[WIP]" in title adds `WIP` label
 - Opening PR with "[Delivers #....]" in title moves card to `finished` row on Trello
 - Closing PR with "[Delivers #....]" in title moves card to `merged` row on Trello
+- CP-8 will comment on issues with no activity for more than 5 weeks
