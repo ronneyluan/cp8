@@ -1,6 +1,5 @@
 require "payload"
 require "events/event"
-require "events/comment"
 require "events/pull_request"
 require "events/review"
 require "label"
