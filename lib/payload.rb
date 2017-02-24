@@ -6,10 +6,7 @@ class Payload < Hashie::Mash
   end
 
   def process
-    case
-    when review?
-      Events::Review.new(self).process
-    when pull_request?
+    if pull_request?
       Events::PullRequest.new(self).process
     end
   end

@@ -14,11 +14,6 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_removed_wip).process
   end
 
-  def test_adding_reviewed_label_if_approved_review_submitted
-    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Reviewed]).once
-    create_payload(:review_approved).process
-  end
-
   def test_creating_pr_with_wip_label
     github.expects(:label).with("balvig/cp-8", :WIP).once.raises(Octokit::NotFound)
     github.expects(:add_label).with("balvig/cp-8", :WIP, "5319e7").once
@@ -32,12 +27,10 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_wip).process
   end
 
-  def test_adding_wip_label_and_removing_reviewed_label
-    github.stubs(:labels_for_issue).with("balvig/cp-8", 1).returns([stub(name: "Reviewed")])
+  def test_adding_wip_label
     github.expects(:label).with("balvig/cp-8", :WIP).once.raises(Octokit::NotFound)
     github.expects(:add_label).with("balvig/cp-8", :WIP, "5319e7").once
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
-    github.expects(:remove_label).with("balvig/cp-8", 1, :Reviewed).once
     create_payload(:pull_request_added_wip).process
   end
 
