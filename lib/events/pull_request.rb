@@ -62,7 +62,7 @@ module Events
 
       def report_stale_issues
         stale_issues.each do |issue|
-          github.add_comment(repo, issue.number, "[BEEP BOOP] Hi there!\n\nJust a reminder that this issue/PR hasn't been updated in _5 weeks_ and should probably be closed and labelled `icebox` for now.\n\nFeel free to re-open in the future if/when it becomes relevant again! :heart:")
+          github.add_comment(repo, issue.number, "[BEEP BOOP] Hi there!\n\nJust a reminder that this issue/PR hasn't been updated in _a month_ and should probably be closed and labelled `icebox` for now.\n\nFeel free to re-open in the future if/when it becomes relevant again! :heart:")
         end
       end
 
@@ -71,7 +71,7 @@ module Events
       end
 
       def stale_pr_cutoff_date
-        (Time.now - 5 * WEEK).iso8601
+        (Time.now - 4 * WEEK).iso8601
       end
 
       def github
