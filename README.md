@@ -10,3 +10,4 @@
 - Opening PR with "[Delivers #....]" in title moves card to `finished` row on Trello
 - Closing PR with "[Delivers #....]" in title moves card to `merged` row on Trello
 - CP-8 will comment on issues with no activity for more than 5 weeks
+- Testing
