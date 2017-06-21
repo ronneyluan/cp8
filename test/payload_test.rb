@@ -9,7 +9,7 @@ class PayloadTest < Minitest::Test
   end
 
   def test_closing_stale_prs
-    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-11-27T00:00:00+00:00").once.returns(stub(items: [stub(number: 1)]))
+    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [stub(number: 1)]))
     github.expects(:add_comment)
     create_payload(:pull_request_removed_wip).process
   end
