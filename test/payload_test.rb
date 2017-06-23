@@ -62,6 +62,12 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_closed_multiple).process
   end
 
+  def test_keeping_cards_in_accepted_column_when_editing_closed_pr
+    trello.expects(:update_card).with("1234", status: :finish).never
+    trello.expects(:update_card).with("1234", status: :accept).once
+    create_payload(:closed_pull_request_edited).process
+  end
+
   private
 
     def create_payload(file)

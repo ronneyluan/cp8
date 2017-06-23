@@ -25,7 +25,7 @@ module Events
       end
 
       def closed?
-        payload.action == "closed"
+        payload.pull_request.state == "closed"
       end
 
       def wip?
