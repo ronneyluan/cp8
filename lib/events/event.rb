@@ -19,13 +19,5 @@ module Events
       def remove_label(label)
         Label.new(repo, label).remove_from(issue)
       end
-
-      def repo
-        payload.repository.full_name
-      end
-
-      def issue
-        payload.issue || payload.pull_request
-      end
   end
 end

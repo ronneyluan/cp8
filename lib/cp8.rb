@@ -1,6 +1,7 @@
 require "payload"
 require "events/event"
-require "events/pull_request"
+require "events/issue_update"
+require "events/pull_request_update"
 require "label"
 require "trello"
 
