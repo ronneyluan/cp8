@@ -28,8 +28,16 @@ module Events
         payload.pull_request.state == "closed"
       end
 
+      def prefixes
+        tag_matches[1].to_s.split(" ")
+      end
+
+      def tag_matches
+        title.match(/^\[(.+)\]/) || []
+      end
+
       def wip?
-        title.include?("[WIP]")
+        prefixes.include?("WIP")
       end
 
       def title
