@@ -1,8 +1,8 @@
-require "trello_flow/api/base"
+require "cp8_cli/trello/base"
 
 class Trello
   def initialize(key:, token:)
-    TrelloFlow::Api::Base.configure key: key, token: token
+    Cp8Cli::Trello::Base.configure key: key, token: token
   end
 
   def update_card(id, status:)
@@ -16,6 +16,6 @@ class Trello
   private
 
     def find_card(id)
-      TrelloFlow::Api::Card.find(id)
+      Cp8Cli::Trello::Card.find(id)
     end
 end
