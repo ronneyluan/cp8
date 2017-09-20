@@ -41,5 +41,10 @@
     "updated_at": "2016-02-28T06:28:14Z",
     "closed_at": null,
     "body": ""
+  },
+  "repository": {
+    "id": 52675348,
+    "name": "cp-8",
+    "full_name": "balvig/cp-8"
   }
 }

@@ -7,7 +7,9 @@ class Payload < Hashie::Mash
 
   def process
     if pull_request?
-      Events::PullRequest.new(self).process
+      Events::PullRequestUpdate.new(self).process
+    elsif issue?
+      Events::IssueUpdate.new(self).process
     end
   end
 end

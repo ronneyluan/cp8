@@ -5,7 +5,7 @@ gem "hashie"
 gem "octokit"
 gem "puma"
 gem "sinatra"
-gem "trello_flow"
+gem "cp8_cli"
 
 group :development do
   gem "pry"
