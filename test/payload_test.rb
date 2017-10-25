@@ -1,6 +1,8 @@
 require "test_helper"
 
 class PayloadTest < Minitest::Test
+  CP8_USER_ID = 9999
+
   def setup
     ENV["TZ"] = "UTC"
     Time.stubs(:now).returns(Time.at(0))
@@ -13,6 +15,13 @@ class PayloadTest < Minitest::Test
     github.expects(:add_comment)
     github.expects(:close_issue).with("balvig/cp-8", 1)
     create_payload(:pull_request_removed_wip).process
+  end
+
+  def test_not_reacting_to_own_posts
+    github.stubs(:search_issues).returns(stub(items: [stub(number: 1)]))
+    github.expects(:add_comment).never
+    github.expects(:close_issue).never
+    create_payload(:cp8_commented).process
   end
 
   def test_creating_pr_with_wip_label
@@ -77,7 +86,17 @@ class PayloadTest < Minitest::Test
     end
 
     def github
-      @_github ||= stub(label: true, add_label: true, labels_for_issue: [], search_issues: stub(items: []))
+      @_github ||= build_fake_github
+    end
+
+    def build_fake_github
+      stub(
+        user: stub(id: CP8_USER_ID),
+        label: true,
+        add_label: true,
+        labels_for_issue: [],
+        search_issues: stub(items: [])
+      )
     end
 
     def trello
