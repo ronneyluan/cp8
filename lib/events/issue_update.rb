@@ -3,7 +3,7 @@ module Events
     WEEK = 7 * 24 * 60 * 60
 
     def process
-      report_stale_issues
+      close_stale_issues
     end
 
     private
@@ -24,9 +24,10 @@ module Events
         payload.issue || payload.pull_request
       end
 
-      def report_stale_issues
+      def close_stale_issues
         stale_issues.each do |issue|
-          github.add_comment(repo, issue.number, "[BEEP BOOP] Hi there!\n\nJust a reminder that this issue/PR hasn't been updated in _a month_ and should probably be closed and labelled `icebox` for now.\n\nFeel free to re-open in the future if/when it becomes relevant again! :heart:")
+          github.close_issue(repo, issue.number)
+          github.add_comment(repo, issue.number, "[BEEP BOOP] Hi there!\n\nThis issue/PR hasn't been updated in _a month_ so am closing it for now.\n\nFeel free to re-open in the future if/when it becomes relevant again! :heart:")
         end
       end
 
