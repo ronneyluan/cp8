@@ -78,6 +78,13 @@ class PayloadTest < Minitest::Test
     create_payload(:closed_pull_request_edited).process
   end
 
+  def test_adding_wip_label_from_title
+    github.expects(:label).with("balvig/cp-8", :WIP).once.raises(Octokit::NotFound)
+    github.expects(:add_label).with("balvig/cp-8", :WIP, "5319e7").once
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
+    create_payload(:pull_request_title).process
+  end
+
   private
 
     def create_payload(file)
