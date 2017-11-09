@@ -8,16 +8,12 @@ module Events
 
     private
 
-      def prefixes
-        tag_matches[1].to_s.split(" ")
-      end
-
-      def tag_matches
-        title.match(/^\[(.+)\]/) || []
-      end
-
       def title
         issue.title
+      end
+
+      def title_tags
+        title.scan(/\[(\w+)\]/).flatten
       end
 
       def issue

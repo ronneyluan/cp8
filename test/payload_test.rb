@@ -31,6 +31,11 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_wip).process
   end
 
+  def test_adding_wip_label_when_title_has_multiple_prefixes
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
+    create_payload(:pull_request_with_multiple_prefixes).process
+  end
+
   def test_ignoring_label_if_already_added
     github.expects(:labels_for_issue).with("balvig/cp-8", 1).once.returns([stub(name: "WIP")])
     github.expects(:add_labels_to_an_issue).never
@@ -76,13 +81,6 @@ class PayloadTest < Minitest::Test
     trello.expects(:update_card).with("1234", status: :finish).never
     trello.expects(:update_card).with("1234", status: :accept).once
     create_payload(:closed_pull_request_edited).process
-  end
-
-  def test_adding_wip_label_from_title
-    github.expects(:label).with("balvig/cp-8", :WIP).once.raises(Octokit::NotFound)
-    github.expects(:add_label).with("balvig/cp-8", :WIP, "5319e7").once
-    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
-    create_payload(:pull_request_title).process
   end
 
   private
