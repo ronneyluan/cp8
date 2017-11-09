@@ -13,6 +13,7 @@ end
 
 group :test do
   gem "minitest"
+  gem "minitest-focus"
   gem "minitest-reporters"
   gem "mocha"
   gem "rack-test", require: "rack/test"
