@@ -27,7 +27,7 @@ module Events
       end
 
       def wip?
-        prefixes.include?("WIP")
+        title_tags.include?("WIP")
       end
 
       def url

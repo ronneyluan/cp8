@@ -31,6 +31,11 @@ class PayloadTest < Minitest::Test
     create_payload(:pull_request_wip).process
   end
 
+  def test_adding_wip_label_when_title_has_multiple_prefixes
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
+    create_payload(:pull_request_with_multiple_prefixes).process
+  end
+
   def test_ignoring_label_if_already_added
     github.expects(:labels_for_issue).with("balvig/cp-8", 1).once.returns([stub(name: "WIP")])
     github.expects(:add_labels_to_an_issue).never
