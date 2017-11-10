@@ -12,8 +12,9 @@ module Events
         update_cards(:finish)
       end
 
-      attach_to_cards if opened?
-      super
+      if opened?
+        attach_to_cards
+      end
     end
 
     private
@@ -23,20 +24,16 @@ module Events
       end
 
       def closed?
-        payload.pull_request.state == "closed"
+        issue.closed?
       end
 
       def wip?
-        title_tags.include?("WIP")
-      end
-
-      def url
-        issue.html_url
+        issue.wip?
       end
 
       def attach_to_cards
         card_ids.each do |id|
-          trello.attach(id, url: url)
+          trello.attach(id, url: issue.html_url)
         end
       end
 
@@ -47,11 +44,7 @@ module Events
       end
 
       def card_ids
-        delivers_meta_info.scan(/(?:#(\w+))/).flatten
-      end
-
-      def delivers_meta_info
-        title[/\[Delivers.+\]/] || ""
+        issue.card_ids
       end
 
       def trello
