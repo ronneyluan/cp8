@@ -1,5 +1,7 @@
-class Processor
+require "issue_closer"
+require "labeler"
 
+class Processor
   def initialize(payload)
     @payload = payload
   end
@@ -9,12 +11,17 @@ class Processor
       Events::PullRequestUpdate.new(payload).process
     end
 
+    add_labels
     close_stale_issues
   end
 
   private
 
     attr_reader :payload
+
+    def add_labels
+      Labeler.new(repo, payload.issue).run
+    end
 
     def close_stale_issues
       return if event_triggered_by_cp8?

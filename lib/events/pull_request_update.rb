@@ -4,11 +4,7 @@ module Events
       case
       when closed?
         update_cards(:accept)
-      when wip?
-        add_label(:WIP)
-        remove_label(:Reviewed)
       when !wip?
-        remove_label(:WIP)
         update_cards(:finish)
       end
 
