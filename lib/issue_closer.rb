@@ -10,6 +10,7 @@ class IssueCloser
     stale_issues.each do |issue|
       github.close_issue(repo, issue.number)
       github.add_comment(repo, issue.number, "[BEEP BOOP] Hi there!\n\nThis issue/PR hasn't been updated in _a month_ so am closing it for now.\n\nFeel free to re-open in the future if/when it becomes relevant again! :heart:")
+      Label.new(repo, :Icebox).add_to(issue)
     end
   end
 

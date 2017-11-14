@@ -14,6 +14,7 @@ class PayloadTest < Minitest::Test
     github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [stub(number: 1)]))
     github.expects(:add_comment)
     github.expects(:close_issue).with("balvig/cp-8", 1)
+    github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Icebox]).once
 
     process_payload(:pull_request_removed_wip)
   end

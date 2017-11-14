@@ -1,6 +1,6 @@
 class Label
   COLORS = {
-    Reviewed: "207de5",
+    Icebox: "eb6420",
     WIP: "5319e7"
   }
 
