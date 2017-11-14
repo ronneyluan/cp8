@@ -1,3 +1,5 @@
+require "label"
+
 class Labeler
   def initialize(repo, issue)
     @repo = repo

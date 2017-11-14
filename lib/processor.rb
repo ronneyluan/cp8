@@ -1,3 +1,4 @@
+require "card_updater"
 require "issue_closer"
 require "labeler"
 
@@ -7,10 +8,9 @@ class Processor
   end
 
   def process
-    if payload.pull_request?
-      Events::PullRequestUpdate.new(payload).process
-    end
+    return if event_triggered_by_cp8?
 
+    update_trello_cards
     add_labels
     close_stale_issues
   end
@@ -19,13 +19,15 @@ class Processor
 
     attr_reader :payload
 
+    def update_trello_cards
+      CardUpdater.new(payload).run
+    end
+
     def add_labels
       Labeler.new(repo, payload.issue).run
     end
 
     def close_stale_issues
-      return if event_triggered_by_cp8?
-
       IssueCloser.new(repo).run
     end
 
