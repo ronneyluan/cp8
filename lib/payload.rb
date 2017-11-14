@@ -11,7 +11,7 @@ class Payload
   end
 
   def issue
-    Issue.new (data[:issue] || data[:pull_request]).deep_symbolize_keys
+    Issue.new(issue_or_pull_request_data)
   end
 
   def repo
@@ -28,10 +28,13 @@ class Payload
 
   def action
     data[:action]
-
   end
 
   private
 
     attr_reader :data
+
+    def issue_or_pull_request_data
+      data[:issue] || data[:pull_request]
+    end
 end
