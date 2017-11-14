@@ -20,7 +20,7 @@ class IssueCloser
 
     def stale_issues
       stale_issue_data.map do |data|
-        Issue.new(data)
+        Issue.new(data.to_h.merge(repo: repo))
       end
     end
 

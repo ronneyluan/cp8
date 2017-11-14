@@ -10,7 +10,7 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
-    update_trello_cards
+    update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
   end
