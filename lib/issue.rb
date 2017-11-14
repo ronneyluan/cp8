@@ -1,4 +1,13 @@
-class Issue < Hashie::Mash
+class Issue
+  attr_reader :number, :html_url
+
+  def initialize(title:, state:, number:, html_url:, **other)
+    @title = title
+    @state = state
+    @number = number
+    @html_url = html_url
+  end
+
   def wip?
     title_tags.include?("WIP")
   end
@@ -12,6 +21,8 @@ class Issue < Hashie::Mash
   end
 
   private
+
+    attr_reader :title, :state
 
     def title_tags
       title.scan(/\[(\w+)\]/).flatten

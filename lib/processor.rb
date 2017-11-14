@@ -32,7 +32,7 @@ class Processor
     end
 
     def event_triggered_by_cp8?
-      current_user.id == payload.sender&.id
+      current_user.id == payload.sender_id
     end
 
     def current_user
