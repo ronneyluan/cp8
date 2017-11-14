@@ -1,7 +1,7 @@
 class Issue
   attr_reader :number, :html_url, :repo
 
-  def initialize(title:, state:, number:, html_url:, repo:, **other)
+  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, **other)
     @title = title
     @state = state
     @number = number

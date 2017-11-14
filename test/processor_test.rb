@@ -11,7 +11,7 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_closing_stale_prs
-    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [stub(number: 1)]))
+    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [{ number: 1, repo: "balvig/cp-8" }]))
     github.expects(:add_comment)
     github.expects(:close_issue).with("balvig/cp-8", 1)
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Icebox]).once
@@ -20,7 +20,7 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_not_reacting_to_own_posts
-    github.stubs(:search_issues).returns(stub(items: [stub(number: 1)]))
+    github.stubs(:search_issues).returns(stub(items: [{ number: 1, repo: "balvig/cp-8" }]))
     github.expects(:add_comment).never
     github.expects(:close_issue).never
 
