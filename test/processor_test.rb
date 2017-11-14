@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PayloadTest < Minitest::Test
+class ProcessorTest < Minitest::Test
   CP8_USER_ID = 9999
 
   def setup

@@ -1,8 +1,7 @@
 require "label"
 
 class Labeler
-  def initialize(repo, issue)
-    @repo = repo
+  def initialize(issue)
     @issue = issue
   end
 
@@ -16,7 +15,11 @@ class Labeler
 
   private
 
-    attr_reader :repo, :issue
+    attr_reader :issue
+
+    def repo
+      issue.repo
+    end
 
     def wip?
       issue.wip?

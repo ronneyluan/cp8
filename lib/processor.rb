@@ -24,7 +24,7 @@ class Processor
     end
 
     def add_labels
-      Labeler.new(repo, payload.issue).run
+      Labeler.new(payload.issue).run
     end
 
     def close_stale_issues

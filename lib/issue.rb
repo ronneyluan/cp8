@@ -1,11 +1,12 @@
 class Issue
-  attr_reader :number, :html_url
+  attr_reader :number, :html_url, :repo
 
-  def initialize(title:, state:, number:, html_url:, **other)
+  def initialize(title:, state:, number:, html_url:, repo:, **other)
     @title = title
     @state = state
     @number = number
     @html_url = html_url
+    @repo = repo
   end
 
   def wip?

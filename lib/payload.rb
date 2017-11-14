@@ -11,7 +11,7 @@ class Payload
   end
 
   def issue
-    Issue.new(issue_or_pull_request_data)
+    @_issue ||= Issue.new(issue_params)
   end
 
   def repo
@@ -33,6 +33,10 @@ class Payload
   private
 
     attr_reader :data
+
+    def issue_params
+      issue_or_pull_request_data.merge(repo: repo)
+    end
 
     def issue_or_pull_request_data
       data[:issue] || data[:pull_request]
