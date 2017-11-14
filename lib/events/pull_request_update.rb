@@ -1,5 +1,9 @@
 module Events
-  class PullRequestUpdate < IssueUpdate
+  class PullRequestUpdate
+    def initialize(payload)
+      @payload = payload
+    end
+
     def process
       case
       when closed?
@@ -15,6 +19,8 @@ module Events
 
     private
 
+      attr_reader :payload
+
       def opened?
         payload.action == "opened"
       end
@@ -25,6 +31,10 @@ module Events
 
       def wip?
         issue.wip?
+      end
+
+      def issue
+        payload.issue
       end
 
       def attach_to_cards
