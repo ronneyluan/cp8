@@ -3,7 +3,7 @@ class IssueCloser
 
   def initialize(repo, weeks: nil)
     @repo = repo
-    @weeks = weeks || 4
+    @weeks = (weeks || 4).to_i
   end
 
   def run
