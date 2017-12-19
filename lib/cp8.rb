@@ -1,6 +1,8 @@
 require "payload"
 require "processor"
+require "silent_chat_client"
 require "trello"
+require "slack-notifier"
 
 class Cp8
   class << self
@@ -15,23 +17,28 @@ class Cp8
     end
 
     def chat_client
-      @chat_client || slack
+      @chat_client || slack || silence
     end
 
     private
 
       def trello_flow_api
-        raise "TRELLO_KEY and/or TRELLO_TOKEN env variables not set" unless ENV["TRELLO_KEY"] && ENV["TRELLO_TOKEN"]
+        raise "TRELLO_KEY and/or TRELLO_TOKEN not set" unless ENV["TRELLO_KEY"] && ENV["TRELLO_TOKEN"]
         @_trello_client ||= Trello.new(key: ENV["TRELLO_KEY"], token: ENV["TRELLO_TOKEN"])
       end
 
       def octokit
-        raise "OCTOKIT_ACCESS_TOKEN env variable not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
+        raise "OCTOKIT_ACCESS_TOKEN not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
         @_octokit ||= Octokit::Client.new
       end
 
       def slack
+        return unless ENV["SLACK_WEBHOOK_URL"]
+        @_slack ||= Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"])
+      end
 
+      def silence
+        @_silence ||= SilentChatClient.new
       end
   end
 end
