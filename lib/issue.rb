@@ -26,9 +26,7 @@ class Issue
   end
 
   def reviewers
-    reviewer_logins.reject do |login|
-      login.in?(BOTS)
-    end.map do |login|
+    reviewer_logins.without(*BOTS).map do |login|
       User.new(login: login)
     end
   end
