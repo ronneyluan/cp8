@@ -8,6 +8,7 @@ class ProcessorTest < Minitest::Test
     Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
     Cp8.trello_client = trello
+    Cp8.chat_client = chat
   end
 
   def test_closing_stale_prs
@@ -96,6 +97,16 @@ class ProcessorTest < Minitest::Test
     process_payload(:closed_pull_request_edited)
   end
 
+  def test_notifying_recycle_requests
+    github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
+      [stub(user: stub(login: "balvig"))]
+    )
+
+    chat.expects(:post).with(text: "@balvig :recycle: please https://github.com/balvig/cp-8/pull/1")
+
+    process_payload(:comment_recycle)
+  end
+
   private
 
     def process_payload(file)
@@ -127,5 +138,9 @@ class ProcessorTest < Minitest::Test
 
     def trello
       @_trello ||= stub
+    end
+
+    def chat
+      @_chat ||= stub
     end
 end

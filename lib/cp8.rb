@@ -4,7 +4,7 @@ require "trello"
 
 class Cp8
   class << self
-    attr_writer :trello_client, :github_client
+    attr_writer :trello_client, :github_client, :chat_client
 
     def trello_client
       @trello_client || trello_flow_api
@@ -12,6 +12,10 @@ class Cp8
 
     def github_client
       @github_client || octokit
+    end
+
+    def chat_client
+      @chat_client
     end
 
     private

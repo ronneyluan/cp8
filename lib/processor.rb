@@ -11,6 +11,7 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
+    ping_reviewers if recycle_request?
     update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
@@ -32,6 +33,10 @@ class Processor
       IssueCloser.new(repo, weeks: config[:stale_issue_weeks]).run
     end
 
+    def ping_reviewers
+      chat.post text: payload.issue.reviewers.map(&:chat_name).join(", ") + " :recycle: please #{payload.issue.html_url}"
+    end
+
     def event_triggered_by_cp8?
       current_user.id == payload.sender_id
     end
@@ -44,7 +49,15 @@ class Processor
       payload.repo
     end
 
+    def recycle_request?
+      payload.comment&.recycle_request?
+    end
+
     def github
       Cp8.github_client
+    end
+
+    def chat
+      Cp8.chat_client
     end
 end
