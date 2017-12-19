@@ -1,6 +1,8 @@
 class Comment
   RECYCLE = ["♻️", ":recycle:"]
 
+  attr_reader :body
+
   def initialize(body:, **other)
     @body = body
   end
@@ -8,8 +10,4 @@ class Comment
   def recycle_request?
     RECYCLE.any? { |word| body.include?(word) }
   end
-
-  private
-
-    attr_reader :body
 end

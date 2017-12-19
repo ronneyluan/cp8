@@ -2,8 +2,9 @@ class RecycleNotification
   DEFAULT_CHANNEL = "#reviews"
   DEFAULT_USERNAME = "CP-8"
 
-  def initialize(issue:, channel:)
+  def initialize(issue:, comment_body:, channel:)
     @issue = issue
+    @comment_body = comment_body
     @channel = channel || DEFAULT_CHANNEL
   end
 
@@ -13,10 +14,14 @@ class RecycleNotification
 
   private
 
-    attr_reader :issue, :channel
+    attr_reader :issue, :comment_body, :channel
 
     def message
-      "#{mentions} :recycle: please #{issue.html_url}"
+      <<~TEXT
+      #{mentions} :recycle: please #{issue.html_url}
+
+      > #{comment_body}
+      TEXT
     end
 
     def mentions

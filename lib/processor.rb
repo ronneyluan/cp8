@@ -7,6 +7,7 @@ class Processor
   def initialize(payload, config: nil)
     @payload = payload
     @config = config || {}
+    @logs = []
   end
 
   def process
@@ -16,29 +17,39 @@ class Processor
     update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
+    logs.join("\n")
   end
 
   private
 
-    attr_reader :payload, :config
+    attr_reader :payload, :config, :logs
+
+    def log(msg)
+      logs << msg
+    end
+
+    def notify_reviewers
+      log "Notifying reviewers"
+      RecycleNotification.new(
+        issue: payload.issue,
+        comment_body: payload.comment.body,
+        channel: config[:chat_channel]
+      ).deliver
+    end
 
     def update_trello_cards
+      log "Updating trello cards"
       CardUpdater.new(payload).run
     end
 
     def add_labels
+      log "Updating labels"
       Labeler.new(payload.issue).run
     end
 
     def close_stale_issues
+      log "Closing stale issues"
       IssueCloser.new(repo, weeks: config[:stale_issue_weeks]).run
-    end
-
-    def notify_reviewers
-      RecycleNotification.new(
-        issue: payload.issue,
-        channel: config[:chat_channel]
-      ).deliver
     end
 
     def event_triggered_by_cp8?

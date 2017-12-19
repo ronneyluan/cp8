@@ -43,6 +43,8 @@ class Issue
 
     def reviews
       github.pull_request_reviews(repo, number)
+    rescue Octokit::NotFound
+      []
     end
 
     def title_tags
