@@ -18,7 +18,7 @@ class RecycleNotification
 
     def message
       <<~TEXT
-      #{mentions} :recycle: please #{issue.html_url}
+      #{mentions} #{issue.html_url} ready for re-review
 
       > #{comment_body}
       TEXT
