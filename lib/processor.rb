@@ -1,6 +1,7 @@
 require "card_updater"
 require "issue_closer"
 require "labeler"
+require "recycle_notification"
 
 class Processor
   def initialize(payload, config: nil)
@@ -11,7 +12,7 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
-    ping_reviewers if recycle_request?
+    notify_reviewers if recycle_request?
     update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
@@ -33,8 +34,11 @@ class Processor
       IssueCloser.new(repo, weeks: config[:stale_issue_weeks]).run
     end
 
-    def ping_reviewers
-      chat.post text: payload.issue.reviewers.map(&:chat_name).join(", ") + " :recycle: please #{payload.issue.html_url}"
+    def notify_reviewers
+      RecycleNotification.new(
+        issue: payload.issue,
+        channel: config[:chat_channel]
+      ).deliver
     end
 
     def event_triggered_by_cp8?
@@ -55,9 +59,5 @@ class Processor
 
     def github
       Cp8.github_client
-    end
-
-    def chat
-      Cp8.chat_client
     end
 end

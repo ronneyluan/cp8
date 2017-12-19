@@ -15,7 +15,7 @@ class Cp8
     end
 
     def chat_client
-      @chat_client
+      @chat_client || slack
     end
 
     private
@@ -28,6 +28,10 @@ class Cp8
       def octokit
         raise "OCTOKIT_ACCESS_TOKEN env variable not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
         @_octokit ||= Octokit::Client.new
+      end
+
+      def slack
+
       end
   end
 end

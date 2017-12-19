@@ -102,7 +102,7 @@ class ProcessorTest < Minitest::Test
       [stub(user: stub(login: "balvig"))]
     )
 
-    chat.expects(:post).with(text: "@balvig :recycle: please https://github.com/balvig/cp-8/pull/1")
+    chat.expects(:ping).with("@balvig :recycle: please https://github.com/balvig/cp-8/pull/1", channel: "#reviews", username: "CP-8")
 
     process_payload(:comment_recycle)
   end
