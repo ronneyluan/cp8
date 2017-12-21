@@ -36,7 +36,7 @@ class Issue
     attr_reader :title, :state
 
     def reviewer_logins
-      reviews.map(&:user).map(&:login)
+      reviews.map(&:user).map(&:login).uniq
     end
 
     def reviews

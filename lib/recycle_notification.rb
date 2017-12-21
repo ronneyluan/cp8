@@ -20,7 +20,7 @@ class RecycleNotification
       <<~TEXT
       #{mentions} #{issue.html_url} ready for re-review
 
-      > #{comment_body}
+      > #{comment_body.truncate(100)}
       TEXT
     end
 

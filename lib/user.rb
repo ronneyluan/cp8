@@ -4,7 +4,7 @@ class User
   end
 
   def chat_name
-    "@#{login}"
+    "<@#{login}>"
   end
 
   private
