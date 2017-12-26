@@ -19,6 +19,6 @@ class RecycleNotification
     attr_reader :issue, :comment_body
 
     def mentions
-      issue.reviewers.map(&:chat_name)
+      issue.peer_reviewers.map(&:chat_name)
     end
 end

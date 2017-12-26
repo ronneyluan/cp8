@@ -1,7 +1,6 @@
 require "user"
 
 class Issue
-  BOTS = %w(houndci-bot)
   WIP_TAG = "WIP"
 
   attr_reader :number, :html_url, :repo, :title
@@ -27,10 +26,8 @@ class Issue
     delivers_meta_info.scan(/(?:#(\w+))/).flatten
   end
 
-  def reviewers
-    reviewers_including_bots.reject do |user|
-      user.login.in?(BOTS)
-    end
+  def peer_reviewers
+    reviewers.without(user, *User.bots)
   end
 
   def user
@@ -51,7 +48,7 @@ class Issue
 
     attr_reader :state, :user_resource
 
-    def reviewers_including_bots
+    def reviewers
       reviews.map(&:user).map do |resource|
         User.from_resource(resource)
       end.uniq

@@ -1,5 +1,12 @@
 class User
+  BOT_LOGINS = %w(houndci-bot)
   attr_reader :login
+
+  def self.bots
+    BOT_LOGINS.map do |login|
+      new(login: login)
+    end
+  end
 
   def self.from_resource(resource)
     new(resource.to_h)
@@ -26,6 +33,4 @@ class User
   def hash
     login.hash
   end
-
-  private
 end

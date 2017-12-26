@@ -92,10 +92,10 @@ class ProcessorTest < Minitest::Test
 
   def test_notifying_recycle_requests
     github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
-      [stub(user: { login: "balvig" })]
+      [stub(user: { login: "reviewer" })]
     )
 
-    chat.expects(:ping).with(has_entry(text: "<@balvig>"))
+    chat.expects(:ping).with(has_entry(text: "<@reviewer>"))
     # TODO: Test the rest of the attachments"
 
     process_payload(:comment_recycle)
