@@ -12,7 +12,7 @@ class Issue
     @number = number
     @html_url = html_url
     @repo = repo
-    @user_attributes = user
+    @user_resource = user
   end
 
   def wip?
@@ -34,9 +34,9 @@ class Issue
   end
 
   def user
-    return unless user_attributes
+    return unless user_resource
 
-    User.from_json(user_attributes)
+    User.from_resource(user_resource)
   end
 
   def additions
@@ -49,11 +49,11 @@ class Issue
 
   private
 
-    attr_reader :state, :user_attributes
+    attr_reader :state, :user_resource
 
     def reviewers_including_bots
-      reviews.map(&:user).map do |attributes|
-        User.from_json(attributes)
+      reviews.map(&:user).map do |resource|
+        User.from_resource(resource)
       end.uniq
     end
 

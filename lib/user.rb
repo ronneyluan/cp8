@@ -1,8 +1,8 @@
 class User
   attr_reader :login
 
-  def self.from_json(attributes = {})
-    new(attributes.symbolize_keys)
+  def self.from_resource(resource)
+    new(resource.to_h)
   end
 
   def initialize(login:, avatar_url: nil, **other)
