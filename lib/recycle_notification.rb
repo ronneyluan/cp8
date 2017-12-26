@@ -1,34 +1,24 @@
-class RecycleNotification
-  DEFAULT_CHANNEL = "#reviews"
-  DEFAULT_USERNAME = "CP-8"
+require "notification"
 
-  def initialize(issue:, comment_body:, channel:)
+class RecycleNotification
+  def initialize(issue:, comment_body:)
     @issue = issue
     @comment_body = comment_body
-    @channel = channel || DEFAULT_CHANNEL
   end
 
   def deliver
-    client.ping(message, channel: channel, username: DEFAULT_USERNAME)
+    Notification.new(
+      issue: issue,
+      action: ":recycle: Review changes",
+      mentions: mentions
+    ).deliver
   end
 
   private
 
-    attr_reader :issue, :comment_body, :channel
-
-    def message
-      <<~TEXT
-      #{mentions} #{issue.html_url} ready for re-review
-
-      > #{comment_body.truncate(100)}
-      TEXT
-    end
+    attr_reader :issue, :comment_body
 
     def mentions
-      issue.reviewers.map(&:chat_name).join(", ")
-    end
-
-    def client
-      Cp8.chat_client
+      issue.reviewers.map(&:chat_name)
     end
 end

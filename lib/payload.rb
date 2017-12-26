@@ -23,6 +23,14 @@ class Payload
     data[:sender][:id]
   end
 
+  def unwip_action?
+    action == "edited" && !issue.wip? && previous_title.include?(Issue::WIP_TAG)
+  end
+
+  def recycle_request?
+    comment&.recycle_request?
+  end
+
   def pull_request?
     data[:pull_request].present?
   end
@@ -51,5 +59,9 @@ class Payload
 
     def issue_or_pull_request_data
       data[:issue] || data[:pull_request]
+    end
+
+    def previous_title
+      data.fetch(:changes, {}).fetch(:title, {}).fetch(:from, {}) || ""
     end
 end

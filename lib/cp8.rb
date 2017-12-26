@@ -5,6 +5,9 @@ require "trello"
 require "slack-notifier"
 
 class Cp8
+  DEFAULT_CHAT_CHANNEL = "#reviews"
+  DEFAULT_CHAT_USER = "CP-8"
+
   class << self
     attr_writer :trello_client, :github_client, :chat_client
 
@@ -34,7 +37,15 @@ class Cp8
 
       def slack
         return unless ENV["SLACK_WEBHOOK_URL"]
-        @_slack ||= Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"])
+        @_slack ||= build_slack
+      end
+
+      def build_slack
+        Slack::Notifier.new(
+          ENV["SLACK_WEBHOOK_URL"],
+          channel: DEFAULT_CHAT_CHANNEL,
+          username: DEFAULT_CHAT_USER
+        )
       end
 
       def silence

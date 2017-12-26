@@ -2,6 +2,7 @@ require "card_updater"
 require "issue_closer"
 require "labeler"
 require "recycle_notification"
+require "unwip_notification"
 
 class Processor
   def initialize(payload, config: nil)
@@ -13,7 +14,8 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
-    notify_reviewers if recycle_request?
+    notify_unwip if unwip_action?
+    notify_recycle if recycle_request?
     update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
@@ -28,12 +30,18 @@ class Processor
       logs << msg
     end
 
-    def notify_reviewers
-      log "Notifying reviewers"
+    def notify_unwip
+      log "Notifying unwip"
+
+      UnwipNotification.new(issue: payload.issue).deliver
+    end
+
+    def notify_recycle
+      log "Notifying recycle request"
+
       RecycleNotification.new(
         issue: payload.issue,
         comment_body: payload.comment.body,
-        channel: config[:chat_channel]
       ).deliver
     end
 
@@ -65,7 +73,11 @@ class Processor
     end
 
     def recycle_request?
-      payload.comment&.recycle_request?
+      payload.recycle_request?
+    end
+
+    def unwip_action?
+      payload.unwip_action?
     end
 
     def github

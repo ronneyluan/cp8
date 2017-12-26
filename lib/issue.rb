@@ -2,19 +2,21 @@ require "user"
 
 class Issue
   BOTS = %w(houndci-bot)
+  WIP_TAG = "WIP"
 
-  attr_reader :number, :html_url, :repo
+  attr_reader :number, :html_url, :repo, :title
 
-  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, **other)
+  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, user: nil, **other)
     @title = title
     @state = state
     @number = number
     @html_url = html_url
     @repo = repo
+    @user_attributes = user
   end
 
   def wip?
-    title_tags.include?("WIP")
+    title_tags.include?(WIP_TAG)
   end
 
   def closed?
@@ -26,17 +28,25 @@ class Issue
   end
 
   def reviewers
-    reviewer_logins.without(*BOTS).map do |login|
-      User.new(login: login)
+    reviewers_including_bots.reject do |user|
+      user.login.in?(BOTS)
     end
+  end
+
+  def user
+    return unless user_attributes
+
+    User.from_json(user_attributes)
   end
 
   private
 
-    attr_reader :title, :state
+    attr_reader :state, :user_attributes
 
-    def reviewer_logins
-      reviews.map(&:user).map(&:login).uniq
+    def reviewers_including_bots
+      reviews.map(&:user).map do |attributes|
+        User.from_json(attributes)
+      end.uniq
     end
 
     def reviews

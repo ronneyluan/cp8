@@ -17,7 +17,7 @@ class ProcessorTest < Minitest::Test
     github.expects(:close_issue).with("balvig/cp-8", 1)
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Icebox]).once
 
-    process_payload(:pull_request_removed_wip)
+    process_payload(:issue_wip)
   end
 
   def test_not_reacting_to_own_posts
@@ -57,13 +57,6 @@ class ProcessorTest < Minitest::Test
     process_payload(:pull_request_added_wip)
   end
 
-  def test_removing_wip_label
-    github.stubs(:labels_for_issue).with("balvig/cp-8", 1).returns([stub(name: "WIP")])
-    github.expects(:remove_label).with("balvig/cp-8", 1, :WIP).once
-
-    process_payload(:pull_request_removed_wip)
-  end
-
   def test_not_adding_labels_to_plain_issues
     github.expects(:add_labels_to_an_issue).never
 
@@ -99,12 +92,27 @@ class ProcessorTest < Minitest::Test
 
   def test_notifying_recycle_requests
     github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
-      [stub(user: stub(login: "balvig"))]
+      [stub(user: { login: "balvig" })]
     )
 
-    chat.expects(:ping).with("<@balvig> https://github.com/balvig/cp-8/pull/1 ready for re-review\n\n> One more time please ♻️\n", channel: "#reviews", username: "CP-8")
+    chat.expects(:ping).with(has_entry(text: "<@balvig>"))
+    # TODO: Test the rest of the attachments"
 
     process_payload(:comment_recycle)
+  end
+
+  def test_removing_wip_label
+    github.stubs(:labels_for_issue).with("balvig/cp-8", 1).returns([stub(name: "WIP")])
+    github.expects(:remove_label).with("balvig/cp-8", 1, :WIP).once
+
+    process_payload(:pull_request_removed_wip)
+  end
+
+  def test_notifying_unwipped_issues
+    chat.expects(:ping).with(has_entry(text: "<!here>"))
+    # TODO: Test the rest of the attachments"
+
+    process_payload(:pull_request_removed_wip)
   end
 
   private
@@ -141,6 +149,6 @@ class ProcessorTest < Minitest::Test
     end
 
     def chat
-      @_chat ||= stub
+      @_chat ||= stub(ping: true)
     end
 end
