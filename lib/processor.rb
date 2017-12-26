@@ -14,8 +14,8 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
-    notify_unwip if unwip_action?
-    notify_recycle if recycle_request?
+    notify_unwip
+    notify_recycle
     update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
@@ -31,14 +31,16 @@ class Processor
     end
 
     def notify_unwip
-      log "Notifying unwip"
+      return unless payload.unwip_action?
 
+      log "Notifying unwip"
       UnwipNotification.new(issue: payload.issue).deliver
     end
 
     def notify_recycle
-      log "Notifying recycle request"
+      return unless payload.recycle_request?
 
+      log "Notifying recycle request"
       RecycleNotification.new(
         issue: payload.issue,
         comment_body: payload.comment.body,
@@ -70,14 +72,6 @@ class Processor
 
     def repo
       payload.repo
-    end
-
-    def recycle_request?
-      payload.recycle_request?
-    end
-
-    def unwip_action?
-      payload.unwip_action?
     end
 
     def github

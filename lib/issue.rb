@@ -39,6 +39,14 @@ class Issue
     User.from_json(user_attributes)
   end
 
+  def additions
+    extended_pr_data[:additions]
+  end
+
+  def deletions
+    extended_pr_data[:deletions]
+  end
+
   private
 
     attr_reader :state, :user_attributes
@@ -61,6 +69,16 @@ class Issue
 
     def delivers_meta_info
       title[/\[Delivers.+\]/] || ""
+    end
+
+    def extended_pr_data
+      @_extended_data ||= fetch_extended_pr_data
+    end
+
+    def fetch_extended_pr_data
+      github.pull_request(repo, number)
+    rescue Octokit::NotFound
+      {}
     end
 
     def github

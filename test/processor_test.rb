@@ -140,7 +140,8 @@ class ProcessorTest < Minitest::Test
         label: true,
         add_label: true,
         labels_for_issue: [],
-        search_issues: stub(items: [])
+        search_issues: stub(items: []),
+        pull_request: {} # TODO: Test properly
       )
     end
 

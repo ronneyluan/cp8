@@ -4,7 +4,7 @@ class CardUpdater
   end
 
   def run
-    return unless payload.pull_request?
+    return unless payload.pull_request_action?
 
     case
     when closed?

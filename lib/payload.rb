@@ -28,10 +28,10 @@ class Payload
   end
 
   def recycle_request?
-    comment&.recycle_request?
+    action == "created" && comment&.recycle_request?
   end
 
-  def pull_request?
+  def pull_request_action?
     data[:pull_request].present?
   end
 

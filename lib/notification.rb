@@ -23,7 +23,7 @@ class Notification
       {
         author_name: issue.user.login,
         author_icon: issue.user.avatar_url,
-        fields: [action_field, issue_field]
+        fields: [action_field, issue_field, changes_field]
       }
     end
 
@@ -34,10 +34,19 @@ class Notification
       }
     end
 
+    def changes_field
+      {
+        title: "Diff",
+        value: "+#{issue.additions} / -#{issue.deletions}",
+        short: true
+      }
+    end
+
     def issue_field
       {
         title: "Pull Request",
-        value: "<#{link}|##{issue.number} #{issue.title}>"
+        value: "<#{link}|##{issue.number} #{issue.title}>",
+        short: true
       }
     end
 
