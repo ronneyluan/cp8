@@ -1,10 +1,11 @@
 source "https://rubygems.org"
 ruby "2.4.1"
 
+gem "cp8_cli"
 gem "octokit"
 gem "puma"
+gem "slack-notifier"
 gem "sinatra"
-gem "cp8_cli"
 
 group :development do
   gem "pry"

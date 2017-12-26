@@ -1,5 +1,6 @@
 require "json"
 require "issue"
+require "comment"
 
 class Payload
   def self.new_from_json(raw_json)
@@ -30,12 +31,22 @@ class Payload
     data[:action]
   end
 
+  def comment
+    return unless comment_params
+
+    Comment.new(comment_params)
+  end
+
   private
 
     attr_reader :data
 
     def issue_params
       issue_or_pull_request_data.merge(repo: repo)
+    end
+
+    def comment_params
+      data[:comment]
     end
 
     def issue_or_pull_request_data

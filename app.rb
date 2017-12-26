@@ -11,7 +11,6 @@ set :show_exceptions, false
 
 post "/payload" do
   Processor.new(payload, config: config).process
-  "Done!"
 end
 
 error 500 do

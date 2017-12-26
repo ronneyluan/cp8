@@ -11,6 +11,10 @@
     },
     "TRELLO_TOKEN": {
       "description": "Trello token if using Trello integration"
+    },
+    "SLACK_WEBHOOK_URL": {
+      "description": "Slack webhook URL for sending chat notifications",
+      "required": false
     }
   }
 }
