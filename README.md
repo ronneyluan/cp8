@@ -22,8 +22,10 @@ CP-8 will:
 - Close issues with no activity for more than 4 weeks
 - Add a `WIP` label to PRs with "[WIP]" in title
 - Notify in Slack `#reviews` channel when:
-  -  a PR is "un-WIPped"
-  -  a `:recycle:` comment is posted
+  - a new (non-WIP) PR is opened
+  - a WIP PR is "un-WIPped"
+  - a `:recycle:` comment is posted
+  - a PR is approved/has changes requested
 
 ## Options
 
