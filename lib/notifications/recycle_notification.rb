@@ -1,4 +1,4 @@
-require "notifications/notification"
+require "notifications/review_request_notification"
 
 class RecycleNotification
   def initialize(issue:, comment_body:)
@@ -7,7 +7,7 @@ class RecycleNotification
   end
 
   def deliver
-    Notification.new(
+    ReviewRequestNotification.new(
       issue: issue,
       action: ":recycle: Review changes",
       mentions: mentions

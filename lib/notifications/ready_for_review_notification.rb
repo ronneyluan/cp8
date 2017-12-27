@@ -1,4 +1,4 @@
-require "notifications/notification"
+require "notifications/review_request_notification"
 
 class ReadyForReviewNotification
   def initialize(issue:)
@@ -6,7 +6,7 @@ class ReadyForReviewNotification
   end
 
   def deliver
-    Notification.new(
+    ReviewRequestNotification.new(
       issue: issue,
       action: ":mag: Review"
     ).deliver

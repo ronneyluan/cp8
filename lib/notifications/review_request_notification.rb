@@ -1,23 +1,23 @@
-class Notification
-  def initialize(issue:, action:, mentions: nil, link: nil, channel: nil)
+require "notification"
+
+class ReviewRequestNotification
+  def initialize(issue:, action:, mentions: nil, link: nil)
     @issue = issue
     @action = action
     @mentions = mentions.presence || ["<!here>"]
     @link = link || issue.html_url
-    @channel = channel
   end
 
   def deliver
-    client.ping(
+    Notification.deliver(
       text: mentions.join(", "),
-      attachments: [attachment],
-      channel: channel
+      attachments: [attachment]
     )
   end
 
   private
 
-    attr_reader :issue, :action, :mentions, :link, :channel
+    attr_reader :issue, :action, :mentions, :link
 
     def attachment
       {
@@ -48,9 +48,5 @@ class Notification
         value: "<#{link}|##{issue.number} #{issue.title}>",
         short: true
       }
-    end
-
-    def client
-      Cp8.chat_client
     end
 end

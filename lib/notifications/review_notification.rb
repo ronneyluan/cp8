@@ -1,4 +1,4 @@
-require "notifications/notification"
+require "notification"
 
 class ReviewNotification
   def initialize(issue:, review:)
@@ -7,7 +7,7 @@ class ReviewNotification
   end
 
   def deliver
-    client.ping(text: text)
+    Notification.deliver(text: text)
   end
 
   private
@@ -15,7 +15,7 @@ class ReviewNotification
     attr_reader :review, :issue
 
     def text
-      ":#{icon}: <#{issue.html_url}|##{issue.number} #{action}> _(cc #{issue.user.chat_name})_"
+      ":#{icon}: <#{issue.html_url}|##{issue.number} #{action}> by reviewer _(cc #{issue.user.chat_name})_"
     end
 
     def icon
@@ -30,11 +30,7 @@ class ReviewNotification
       if review.approved?
         "was approved"
       else
-        "requires changes"
+        "changes required"
       end
-    end
-
-    def client
-      Cp8.chat_client
     end
 end
