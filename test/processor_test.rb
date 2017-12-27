@@ -64,6 +64,7 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_updating_trello_when_submitting_pr
+    chat.expects(:ping)
     trello.expects(:update_card).with("1234", status: :finish).once
     trello.expects(:attach).with("1234", url: "https://github.com/balvig/cp-8/pull/3")
 
@@ -102,10 +103,18 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_removing_wip_label
+    chat.expects(:ping)
     github.stubs(:labels_for_issue).with("balvig/cp-8", 1).returns([stub(name: "WIP")])
     github.expects(:remove_label).with("balvig/cp-8", 1, :WIP).once
 
     process_payload(:pull_request_removed_wip)
+  end
+
+  def test_notifying_new_pull_requests
+    chat.expects(:ping).with(has_entry(text: "<!here>"))
+    # TODO: Test the rest of the attachments"
+
+    process_payload(:pull_request)
   end
 
   def test_notifying_unwipped_issues
@@ -162,6 +171,6 @@ class ProcessorTest < Minitest::Test
     end
 
     def chat
-      @_chat ||= stub(ping: true)
+      @_chat ||= stub
     end
 end

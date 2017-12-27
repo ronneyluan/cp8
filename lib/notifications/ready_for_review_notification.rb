@@ -1,6 +1,6 @@
 require "notifications/notification"
 
-class UnwipNotification
+class ReadyForReviewNotification
   def initialize(issue:)
     @issue = issue
   end

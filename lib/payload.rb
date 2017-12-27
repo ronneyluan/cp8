@@ -1,6 +1,6 @@
 require "json"
-require "issue"
 require "comment"
+require "issue"
 require "review"
 
 class Payload
@@ -30,15 +30,15 @@ class Payload
   end
 
   def unwip_action?
-    action == "edited" && !issue.wip? && previous_title.include?(Issue::WIP_TAG)
+    action.edited? && !issue.wip? && previous_title.include?(Issue::WIP_TAG)
   end
 
   def recycle_request?
-    action == "created" && comment&.recycle_request?
+    action.created? && comment&.recycle_request?
   end
 
   def review_action?
-    action == "submitted" && review&.decisive?
+    action.submitted? && review&.decisive?
   end
 
   def pull_request_action?
@@ -46,7 +46,7 @@ class Payload
   end
 
   def action
-    data[:action]
+    ActiveSupport::StringInquirer.new(data[:action])
   end
 
   def comment
