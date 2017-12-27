@@ -1,6 +1,7 @@
 require "json"
 require "issue"
 require "comment"
+require "review"
 
 class Payload
   def self.new_from_json(raw_json)
@@ -13,6 +14,11 @@ class Payload
 
   def issue
     @_issue ||= Issue.new(issue_params)
+  end
+
+  def review
+    return if review_params.blank?
+    @_review ||= Review.new(review_params)
   end
 
   def repo
@@ -29,6 +35,10 @@ class Payload
 
   def recycle_request?
     action == "created" && comment&.recycle_request?
+  end
+
+  def review_action?
+    action == "submitted" && review&.decisive?
   end
 
   def pull_request_action?
@@ -55,6 +65,10 @@ class Payload
 
     def comment_params
       data[:comment]
+    end
+
+    def review_params
+      data[:review]
     end
 
     def issue_or_pull_request_data

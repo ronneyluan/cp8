@@ -1,8 +1,9 @@
 require "card_updater"
 require "issue_closer"
 require "labeler"
-require "recycle_notification"
-require "unwip_notification"
+require "notifications/recycle_notification"
+require "notifications/review_notification"
+require "notifications/unwip_notification"
 
 class Processor
   def initialize(payload, config: nil)
@@ -14,6 +15,7 @@ class Processor
   def process
     return if event_triggered_by_cp8?
 
+    notify_review
     notify_unwip
     notify_recycle
     update_trello_cards # backwards compatibility for now
@@ -28,6 +30,13 @@ class Processor
 
     def log(msg)
       logs << msg
+    end
+
+    def notify_review
+      return unless payload.review_action?
+
+      log "Notifying review"
+      ReviewNotification.new(review: payload.review, issue: payload.issue).deliver
     end
 
     def notify_unwip

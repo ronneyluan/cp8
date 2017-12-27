@@ -1,4 +1,4 @@
-require "notification"
+require "notifications/notification"
 
 class RecycleNotification
   def initialize(issue:, comment_body:)

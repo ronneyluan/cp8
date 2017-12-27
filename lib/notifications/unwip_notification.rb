@@ -1,4 +1,4 @@
-require "notification"
+require "notifications/notification"
 
 class UnwipNotification
   def initialize(issue:)

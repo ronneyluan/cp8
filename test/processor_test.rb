@@ -115,6 +115,18 @@ class ProcessorTest < Minitest::Test
     process_payload(:pull_request_removed_wip)
   end
 
+  def test_notifying_requested_changes
+    chat.expects(:ping).with(has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 requires changes> _(cc <@submitter>)_"))
+
+    process_payload(:changes_requested)
+  end
+
+  def test_notifying_approval
+    chat.expects(:ping).with(has_entry(text: ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561|#6561 was approved> _(cc <@submitter>)_"))
+
+    process_payload(:approval)
+  end
+
   private
 
     def process_payload(file)
