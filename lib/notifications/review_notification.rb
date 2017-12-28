@@ -15,7 +15,7 @@ class ReviewNotification
     attr_reader :review, :issue
 
     def text
-      ":#{icon}: <#{issue.html_url}|##{issue.number} #{action}> by reviewer _(cc #{issue.user.chat_name})_"
+      ":#{icon}: <#{issue.html_url}|##{issue.number} #{action}> by #{review.user.login} _(cc #{issue.user.chat_name})_"
     end
 
     def icon
