@@ -3,6 +3,16 @@ require "test_helper"
 class ProcessorTest < Minitest::Test
   CP8_USER_ID = 9999
 
+  class TestChatClient
+    cattr_accessor :deliveries do
+      []
+    end
+
+    def ping(args = {})
+      deliveries << args
+    end
+  end
+
   def setup
     ENV["TZ"] = "UTC"
     Time.stubs(:now).returns(Time.at(0))
@@ -124,10 +134,12 @@ class ProcessorTest < Minitest::Test
     process_payload(:pull_request_removed_wip)
   end
 
+  focus
   def test_notifying_requested_changes
-    chat.expects(:ping).with(has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_"))
+    #chat.expects(:ping).with(has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_"))
 
     process_payload(:changes_requested)
+    assert_match chat.deliveries.last, has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_")
   end
 
   def test_notifying_approval
@@ -171,6 +183,6 @@ class ProcessorTest < Minitest::Test
     end
 
     def chat
-      @_chat ||= stub
+      @_chat ||= TestChatClient.new
     end
 end
