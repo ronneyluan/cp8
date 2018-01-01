@@ -34,18 +34,18 @@ class ReviewRequestNotification
       }
     end
 
-    def changes_field
-      {
-        title: "Diff",
-        value: "+#{issue.additions} / -#{issue.deletions}",
-        short: true
-      }
-    end
-
     def issue_field
       {
         title: "Pull Request",
         value: "<#{link}|##{issue.number} #{issue.title}>",
+        short: true
+      }
+    end
+
+    def changes_field
+      {
+        title: "Diff",
+        value: "+#{issue.additions} / -#{issue.deletions}",
         short: true
       }
     end
