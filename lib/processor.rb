@@ -55,7 +55,7 @@ class Processor
       log "Notifying recycle request"
       RecycleNotification.new(
         issue: payload.issue,
-        comment_body: payload.comment.body,
+        comment: payload.comment,
       ).deliver
     end
 
