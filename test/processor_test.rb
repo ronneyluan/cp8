@@ -18,7 +18,7 @@ class ProcessorTest < Minitest::Test
     Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
     Cp8.trello_client = trello
-    Cp8.chat_client = chat
+    Cp8.chat_client = TestChatClient.new
   end
 
   def test_closing_stale_prs
@@ -74,7 +74,6 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_updating_trello_when_submitting_pr
-    chat.expects(:ping)
     trello.expects(:update_card).with("1234", status: :finish).once
     trello.expects(:attach).with("1234", url: "https://github.com/balvig/cp-8/pull/3")
 
@@ -101,51 +100,50 @@ class ProcessorTest < Minitest::Test
     process_payload(:closed_pull_request_edited)
   end
 
-  def test_notifying_recycle_requests
-    github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
-      [stub(user: { login: "reviewer" })]
-    )
-
-    chat.expects(:ping).with(has_entry(text: "<@reviewer>"))
-    # TODO: Test the rest of the attachments"
-
-    process_payload(:comment_recycle)
-  end
-
   def test_removing_wip_label
-    chat.expects(:ping)
     github.stubs(:labels_for_issue).with("balvig/cp-8", 1).returns([stub(name: "WIP")])
     github.expects(:remove_label).with("balvig/cp-8", 1, :WIP).once
 
     process_payload(:pull_request_removed_wip)
   end
 
-  def test_notifying_new_pull_requests
-    chat.expects(:ping).with(has_entry(text: "<!here>"))
-    # TODO: Test the rest of the attachments"
+  def test_notifying_recycle_requests
+    github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
+      [stub(user: { login: "reviewer" })]
+    )
 
+    process_payload(:comment_recycle)
+
+    assert_equal "<@reviewer>", last_notification[:text]
+    assert_equal "balvig", last_notification_attachment[:author_name]
+    assert_equal "https://avatars.githubusercontent.com/u/104138?v=3&size=16", last_notification_attachment[:author_icon]
+    assert_equal ":recycle: Review changes", last_notification_attachment[:fields].first[:value]
+  end
+
+  def test_notifying_new_pull_requests
     process_payload(:pull_request)
+
+    assert_equal "<!here>", last_notification[:text]
+    assert_equal ":mag: Review", last_notification_attachment[:fields].first[:value]
   end
 
   def test_notifying_unwipped_issues
-    chat.expects(:ping).with(has_entry(text: "<!here>"))
-    # TODO: Test the rest of the attachments"
-
     process_payload(:pull_request_removed_wip)
+
+    assert_equal "<!here>", last_notification[:text]
+    assert_equal ":mag: Review", last_notification_attachment[:fields].first[:value]
   end
 
-  focus
   def test_notifying_requested_changes
-    #chat.expects(:ping).with(has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_"))
-
     process_payload(:changes_requested)
-    assert_match chat.deliveries.last, has_entry(text: ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_")
+
+    assert_equal ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_", last_notification[:text]
   end
 
   def test_notifying_approval
-    chat.expects(:ping).with(has_entry(text: ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561|#6561 was approved> by reviewer _(cc <@submitter>)_"))
-
     process_payload(:approval)
+
+    assert_equal ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561|#6561 was approved> by reviewer _(cc <@submitter>)_", last_notification[:text]
   end
 
   private
@@ -182,7 +180,11 @@ class ProcessorTest < Minitest::Test
       @_trello ||= stub
     end
 
-    def chat
-      @_chat ||= TestChatClient.new
+    def last_notification
+      Cp8.chat_client.deliveries.last
+    end
+
+    def last_notification_attachment
+      last_notification[:attachments].last
     end
 end
