@@ -138,13 +138,13 @@ class ProcessorTest < Minitest::Test
   def test_notifying_requested_changes
     process_payload(:changes_requested)
 
-    assert_equal ":x: <https://github.com/cookpad/cp-8/pull/6561|#6561 changes required> by reviewer _(cc <@submitter>)_", last_notification[:text]
+    assert_equal ":x: <https://github.com/cookpad/cp-8/pull/6561#pullrequestreview-85607834|#6561 changes required> by reviewer _(cc <@submitter>)_", last_notification[:text]
   end
 
   def test_notifying_approval
     process_payload(:approval)
 
-    assert_equal ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561|#6561 was approved> by reviewer _(cc <@submitter>)_", last_notification[:text]
+    assert_equal ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561#pullrequestreview-85607834|#6561 was approved> by reviewer _(cc <@submitter>)_", last_notification[:text]
   end
 
   private

@@ -1,7 +1,10 @@
 class Review
-  def initialize(state:, user:, **other)
+  attr_reader :html_url
+
+  def initialize(state:, user:, html_url:, **other)
     @state = state
     @user_resource = user
+    @html_url = html_url
   end
 
   def approved?
