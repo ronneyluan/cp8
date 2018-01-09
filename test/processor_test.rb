@@ -154,7 +154,11 @@ class ProcessorTest < Minitest::Test
     end
 
     def process(payload)
-      Processor.new(payload).process
+      Processor.new(payload, config: config).process
+    end
+
+    def config
+      { review_channel: "#reviews" }
     end
 
     def create_payload(file)

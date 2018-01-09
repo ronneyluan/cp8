@@ -1,6 +1,6 @@
-require "notification"
+require "notifications/notification"
 
-class ReviewRequestNotification
+class ReviewRequestNotification < Notification
   def initialize(issue:, action:, mentions: nil, link: nil)
     @issue = issue
     @action = action
@@ -8,11 +8,12 @@ class ReviewRequestNotification
     @link = link || issue.html_url
   end
 
-  def deliver
-    Notification.deliver(
-      text: mentions.join(", "),
-      attachments: [attachment]
-    )
+  def text
+    mentions.join(", ")
+  end
+
+  def attachments
+    [attachment]
   end
 
   private

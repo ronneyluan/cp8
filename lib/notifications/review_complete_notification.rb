@@ -1,22 +1,18 @@
-require "notification"
+require "notifications/notification"
 
-class ReviewNotification
+class ReviewCompleteNotification < Notification
   def initialize(issue:, review:)
     @issue = issue
     @review = review
   end
 
-  def deliver
-    Notification.deliver(text: text)
+  def text
+    ":#{icon}: <#{link}|##{issue.number} #{action}> by #{review.user.login} _(cc #{issue.user.chat_name})_"
   end
 
   private
 
     attr_reader :review, :issue
-
-    def text
-      ":#{icon}: <#{link}|##{issue.number} #{action}> by #{review.user.login} _(cc #{issue.user.chat_name})_"
-    end
 
     def link
       review.html_url

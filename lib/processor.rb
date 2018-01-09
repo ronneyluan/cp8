@@ -1,14 +1,18 @@
 require "card_updater"
+require "configuration"
 require "issue_closer"
+require "notifier"
 require "labeler"
 require "notifications/recycle_notification"
-require "notifications/review_notification"
+require "notifications/review_complete_notification"
 require "notifications/ready_for_review_notification"
 
 class Processor
+  cattr_accessor :config
+
   def initialize(payload, config: nil)
     @payload = payload
-    @config = config || {}
+    @config = Configuration.new(config || {})
     @logs = []
   end
 
@@ -39,31 +43,28 @@ class Processor
       return if payload.issue.wip?
 
       log "Notifying new pull request"
-      ReadyForReviewNotification.new(issue: payload.issue).deliver
+      notify ReadyForReviewNotification.new(issue: payload.issue)
     end
 
     def notify_unwip
       return unless payload.unwip_action?
 
       log "Notifying unwip"
-      ReadyForReviewNotification.new(issue: payload.issue).deliver
+      notify ReadyForReviewNotification.new(issue: payload.issue)
     end
 
     def notify_recycle
       return unless payload.recycle_request?
 
       log "Notifying recycle request"
-      RecycleNotification.new(
-        issue: payload.issue,
-        comment: payload.comment,
-      ).deliver
+      notify RecycleNotification.new(issue: payload.issue, comment: payload.comment)
     end
 
     def notify_review
       return unless payload.review_action?
 
       log "Notifying review"
-      ReviewNotification.new(review: payload.review, issue: payload.issue).deliver
+      notify ReviewCompleteNotification.new(review: payload.review, issue: payload.issue)
     end
 
     def update_trello_cards
@@ -78,7 +79,15 @@ class Processor
 
     def close_stale_issues
       log "Closing stale issues"
-      IssueCloser.new(repo, weeks: config[:stale_issue_weeks]).run
+      IssueCloser.new(repo, weeks: config.stale_issue_weeks).run
+    end
+
+    def notify(notification)
+      notifier.deliver(notification)
+    end
+
+    def notifier
+      @_notifier ||= Notifier.new(channel: config.review_channel)
     end
 
     def event_triggered_by_cp8?
