@@ -25,5 +25,5 @@ private
   end
 
   def config
-    params[:config]
+    params[:config] || {}
   end
