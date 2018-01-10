@@ -12,6 +12,10 @@ class ReviewRequestNotification < Notification
     mentions.join(", ")
   end
 
+  def fallback
+    "#{text} #{action}"
+  end
+
   def attachments
     [attachment]
   end

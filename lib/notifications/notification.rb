@@ -3,6 +3,10 @@ class Notification
     nil
   end
 
+  def fallback
+    text
+  end
+
   def attachments
     nil
   end

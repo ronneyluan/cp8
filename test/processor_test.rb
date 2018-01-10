@@ -125,6 +125,7 @@ class ProcessorTest < Minitest::Test
     process_payload(:pull_request)
 
     assert_equal "<!here>", last_notification[:text]
+    assert_equal "<!here> :mag: Review", last_notification[:fallback]
     assert_equal ":mag: Review", last_notification_attachment[:fields].first[:value]
   end
 

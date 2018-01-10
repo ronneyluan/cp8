@@ -9,6 +9,7 @@ class Notifier
     client.ping(
       text: notification.text,
       attachments: notification.attachments,
+      fallback: notification.fallback,
       channel: channel
     )
   end
