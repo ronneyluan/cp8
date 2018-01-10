@@ -12,4 +12,14 @@ class UserTest < Minitest::Test
 
     assert_equal %w(single dupe), result.map(&:login)
   end
+
+  def test_no_mapping_for_chat_name
+    user = User.new(login: "balvig")
+    assert_equal "<@balvig>", user.chat_name
+  end
+
+  def test_chat_name_github_to_slack_mapping
+    user = User.new(login: "firewalker06")
+    assert_equal "<@didik>", user.chat_name
+  end
 end

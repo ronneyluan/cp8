@@ -1,5 +1,6 @@
 class User
   BOT_LOGINS = %w(houndci-bot)
+  MAPPINGS = YAML::load_file(File.join(__dir__, "user_mappings.yml"))
   attr_reader :login
 
   def self.bots
@@ -18,7 +19,7 @@ class User
   end
 
   def chat_name
-    "<@#{login}>"
+    "<@#{mapped_login}>"
   end
 
   def avatar_url(size: 16)
@@ -33,4 +34,10 @@ class User
   def hash
     login.hash
   end
+
+  private
+
+    def mapped_login
+      MAPPINGS[login] || login
+    end
 end
