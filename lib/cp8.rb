@@ -1,3 +1,4 @@
+require "dotenv/load"
 require "payload"
 require "processor"
 require "silent_chat_client"
@@ -31,7 +32,7 @@ class Cp8
 
       def octokit
         raise "OCTOKIT_ACCESS_TOKEN not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
-        @_octokit ||= Octokit::Client.new
+        @_octokit ||= Octokit::Client.new(access_token: ENV["OCTOKIT_ACCESS_TOKEN"])
       end
 
       def slack

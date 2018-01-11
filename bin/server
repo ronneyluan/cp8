@@ -1,0 +1,2 @@
+#!/usr/bin/env ruby
+system("bundle exec rackup config.ru -p5000")
