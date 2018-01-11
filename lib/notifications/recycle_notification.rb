@@ -4,7 +4,8 @@ class RecycleNotification < ReviewRequestNotification
   def initialize(issue:, comment:)
     super(
       issue: issue,
-      action: ":recycle: Review changes",
+      icon: :recycle,
+      action: "Review changes",
       link: comment.html_url,
       mentions: issue.peer_reviewers.map(&:chat_name)
     )

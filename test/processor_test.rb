@@ -114,26 +114,23 @@ class ProcessorTest < Minitest::Test
 
     process_payload(:comment_recycle)
 
-    assert_equal "<@reviewer>", last_notification[:text]
+    assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
     assert_equal "balvig", last_notification_attachment[:author_name]
     assert_equal "https://avatars.githubusercontent.com/u/104138?v=3&size=16", last_notification_attachment[:author_icon]
-    assert_equal ":recycle: Review changes", last_notification_attachment[:fields].first[:value]
-    assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].second[:value]
+    assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].first[:value]
   end
 
   def test_notifying_new_pull_requests
     process_payload(:pull_request)
 
-    assert_equal "<!here>", last_notification[:text]
+    assert_equal "<!here> :mag: Review", last_notification[:text]
     assert_equal "<!here> :mag: Review", last_notification[:fallback]
-    assert_equal ":mag: Review", last_notification_attachment[:fields].first[:value]
   end
 
   def test_notifying_unwipped_issues
     process_payload(:pull_request_removed_wip)
 
-    assert_equal "<!here>", last_notification[:text]
-    assert_equal ":mag: Review", last_notification_attachment[:fields].first[:value]
+    assert_equal "<!here> :mag: Review", last_notification[:text]
   end
 
   def test_notifying_requested_changes
