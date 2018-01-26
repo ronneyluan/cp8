@@ -1,16 +1,16 @@
 require "notifications/notification"
 
 class ReviewRequestNotification < Notification
-  def initialize(issue:, icon:, action:, mentions: nil, link: nil)
+  def initialize(issue:, icon:, action:, mentions: [], link: nil)
     @issue = issue
     @icon = icon
     @action = action
-    @mentions = mentions.presence || ["<!here>"]
+    @mentions = mentions
     @link = link || issue.html_url
   end
 
   def text
-    mentions.join(", ") + " :#{icon}: #{action}"
+    "#{mention_text}:#{icon}: #{action}"
   end
 
   def attachments
@@ -20,6 +20,12 @@ class ReviewRequestNotification < Notification
   private
 
     attr_reader :issue, :icon, :action, :mentions, :link
+
+    def mention_text
+      return if mentions.empty?
+
+      mentions.join(", ") + " "
+    end
 
     def attachment
       {

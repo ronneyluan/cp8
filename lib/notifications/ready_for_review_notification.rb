@@ -5,7 +5,8 @@ class ReadyForReviewNotification < ReviewRequestNotification
     super(
       issue: issue,
       icon: :mag,
-      action: "Review"
+      action: "Review",
+      mentions: issue.small? ? ["<!here>"] : []
     )
   end
 end

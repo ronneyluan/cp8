@@ -120,11 +120,18 @@ class ProcessorTest < Minitest::Test
     assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].first[:value]
   end
 
-  def test_notifying_new_pull_requests
+  def test_notifying_new_large_pull_requests
+    process_payload(:large_pull_request)
+
+    assert_equal ":mag: Review", last_notification[:text]
+  end
+
+  def test_notifying_new_small_pull_requests_with_mention
     process_payload(:pull_request)
 
     assert_equal "<!here> :mag: Review", last_notification[:text]
     assert_equal "<!here> :mag: Review", last_notification[:fallback]
+    assert_equal "+1 / -1", last_notification_attachment[:fields].last[:value]
   end
 
   def test_notifying_unwipped_issues
