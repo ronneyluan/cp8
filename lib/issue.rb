@@ -4,17 +4,15 @@ class Issue
   WIP_TAG = "WIP"
   SMALL_PR_ADDITION_LIMIT = 50
 
-  attr_reader :number, :html_url, :repo, :title, :additions, :deletions
+  attr_reader :number, :html_url, :repo, :title
 
-  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, user: nil, additions: nil, deletions: nil, **other)
+  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, user: nil, **other)
     @title = title
     @state = state
     @number = number
     @html_url = html_url
     @repo = repo
     @user_resource = user
-    @additions = additions
-    @deletions = deletions
   end
 
   def wip?
@@ -43,6 +41,14 @@ class Issue
     additions <= SMALL_PR_ADDITION_LIMIT
   end
 
+  def additions
+    extended_pr_data[:additions]
+  end
+
+  def deletions
+    extended_pr_data[:deletions]
+  end
+
   private
 
     attr_reader :state, :user_resource
@@ -65,6 +71,16 @@ class Issue
 
     def delivers_meta_info
       title[/\[Delivers.+\]/] || ""
+    end
+
+    def extended_pr_data
+      @_extended_data ||= fetch_extended_pr_data
+    end
+
+    def fetch_extended_pr_data
+      github.pull_request(repo, number)
+    rescue Octokit::NotFound
+      {}
     end
 
     def github

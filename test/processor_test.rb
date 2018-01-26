@@ -121,17 +121,19 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_notifying_new_large_pull_requests
-    process_payload(:large_pull_request)
+    github.stubs(:pull_request).returns(additions: 51)
+    process_payload(:pull_request)
 
     assert_equal ":mag: Review", last_notification[:text]
   end
 
   def test_notifying_new_small_pull_requests_with_mention
+    github.stubs(:pull_request).returns(additions: 5, deletions: 5)
     process_payload(:pull_request)
 
     assert_equal "<!here> :mag: Review", last_notification[:text]
     assert_equal "<!here> :mag: Review", last_notification[:fallback]
-    assert_equal "+1 / -1", last_notification_attachment[:fields].last[:value]
+    assert_equal "+5 / -5", last_notification_attachment[:fields].last[:value]
   end
 
   def test_notifying_unwipped_issues
@@ -182,8 +184,15 @@ class ProcessorTest < Minitest::Test
         add_label: true,
         labels_for_issue: [],
         search_issues: stub(items: []),
-        pull_request: {} # TODO: Test properly
+        pull_request: extended_pull_request_data
       )
+    end
+
+    def extended_pull_request_data
+      {
+        additions: 1,
+        deletions: 1
+      }
     end
 
     def trello
