@@ -6,13 +6,14 @@ class Issue
 
   attr_reader :number, :html_url, :repo, :title
 
-  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, user: nil, **other)
+  def initialize(number:, repo:, title: nil, state: nil, html_url: nil, user: nil, head: nil, **other)
+    @number = number
+    @repo = repo
     @title = title
     @state = state
-    @number = number
     @html_url = html_url
-    @repo = repo
     @user_resource = user
+    @head = head
   end
 
   def wip?
@@ -49,18 +50,32 @@ class Issue
     extended_pr_data[:deletions]
   end
 
+  def sha
+    head[:sha]
+  end
+
+  def approval_count
+    reviews.group_by(&:user).find_all do |user, reviews|
+      reviews.last.approved?
+    end.size
+  end
+
   private
 
-    attr_reader :state, :user_resource
+    attr_reader :state, :user_resource, :head
 
     def reviewers
-      reviews.map(&:user).map do |resource|
-        User.from_resource(resource)
-      end.uniq
+      reviews.map(&:user).uniq
     end
 
     def reviews
-      github.pull_request_reviews(repo, number)
+      @_reviews ||= fetch_reviews
+    end
+
+    def fetch_reviews
+      github.pull_request_reviews(repo, number).map do |resource|
+        Review.new(resource)
+      end
     rescue Octokit::NotFound
       []
     end

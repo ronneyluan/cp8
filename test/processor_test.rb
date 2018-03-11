@@ -109,7 +109,7 @@ class ProcessorTest < Minitest::Test
 
   def test_notifying_recycle_requests
     github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
-      [stub(user: { login: "reviewer" })]
+      [{ state: "STATE", html_url: "HTML_URL", user: { login: "reviewer" } }]
     )
 
     process_payload(:comment_recycle)
@@ -154,18 +154,37 @@ class ProcessorTest < Minitest::Test
     assert_equal ":white_check_mark: <https://github.com/cookpad/cp-8/pull/6561#pullrequestreview-85607834|#6561 was approved> by reviewer _(cc <@submitter>)_", last_notification[:text]
   end
 
+  def test_not_yet_approved_by_reviewers
+    github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
+      [
+        { state: "approved", user: { login: "approver" } },
+        { state: "changes_requested", user: { login: "approver" } },
+        { state: "approved", user: { login: "approver" } },
+      ]
+    )
+
+    github.expects(:create_status).with("balvig/cp-8", "553f35af42dd15b4d13aad9071cc7992559d484c", "failure", context: "CP-8", description: "Need at least 2 approval(s)")
+
+    process_payload(:pull_request, approvals_required: 2)
+  end
+
+  def test_approved_by_reviewers
+    github.expects(:pull_request_reviews).with("balvig/cp-8", 1).once.returns(
+      [
+        { state: "approved", user: { login: "approver" } }
+      ]
+    )
+
+    github.expects(:create_status).with("balvig/cp-8", "553f35af42dd15b4d13aad9071cc7992559d484c", "success", context: "CP-8", description: "Approved by reviewers")
+
+    process_payload(:pull_request, approvals_required: 1)
+  end
+
   private
 
-    def process_payload(file)
-      process create_payload(file)
-    end
-
-    def process(payload)
+    def process_payload(file, config = { review_channel: "#reviews" })
+      payload = create_payload(file)
       Processor.new(payload, config: config).process
-    end
-
-    def config
-      { review_channel: "#reviews" }
     end
 
     def create_payload(file)

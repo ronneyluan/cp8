@@ -6,6 +6,7 @@ require "labeler"
 require "notifications/recycle_notification"
 require "notifications/review_complete_notification"
 require "notifications/ready_for_review_notification"
+require "status_checker"
 
 class Processor
   cattr_accessor :config
@@ -25,6 +26,7 @@ class Processor
     notify_review
     update_trello_cards # backwards compatibility for now
     add_labels
+    update_status
     close_stale_issues
     logs.join("\n")
   end
@@ -80,6 +82,11 @@ class Processor
     def close_stale_issues
       log "Closing stale issues"
       IssueCloser.new(repo, weeks: config.stale_issue_weeks).run
+    end
+
+    def update_status
+      log "Updating status"
+      StatusChecker.new(payload.issue, approvals_required: config.approvals_required).run
     end
 
     def notify(notification)
