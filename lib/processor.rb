@@ -1,4 +1,4 @@
-require "card_updater"
+require "active_support"
 require "configuration"
 require "issue_closer"
 require "notifier"
@@ -23,7 +23,6 @@ class Processor
     notify_unwip
     notify_recycle
     notify_review
-    update_trello_cards # backwards compatibility for now
     add_labels
     close_stale_issues
     logs.join("\n")
@@ -65,11 +64,6 @@ class Processor
 
       log "Notifying review"
       notify ReviewCompleteNotification.new(review: payload.review, issue: payload.issue)
-    end
-
-    def update_trello_cards
-      log "Updating trello cards"
-      CardUpdater.new(payload).run
     end
 
     def add_labels

@@ -1,3 +1,4 @@
+require "active_support/core_ext/hash"
 require "json"
 require "comment"
 require "issue"
