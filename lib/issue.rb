@@ -1,3 +1,4 @@
+require "active_support/core_ext/array"
 require "user"
 
 class Issue

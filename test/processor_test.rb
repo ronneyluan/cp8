@@ -17,7 +17,6 @@ class ProcessorTest < Minitest::Test
     ENV["TZ"] = "UTC"
     Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
-    Cp8.trello_client = trello
     Cp8.chat_client = TestChatClient.new
   end
 
@@ -71,33 +70,6 @@ class ProcessorTest < Minitest::Test
     github.expects(:add_labels_to_an_issue).never
 
     process_payload(:issue_wip)
-  end
-
-  def test_updating_trello_when_submitting_pr
-    trello.expects(:update_card).with("1234", status: :finish).once
-    trello.expects(:attach).with("1234", url: "https://github.com/balvig/cp-8/pull/3")
-
-    process_payload(:pull_request_delivers)
-  end
-
-  def test_updating_trello_when_closing_pr
-    trello.expects(:update_card).with("1234", status: :accept).once
-
-    process_payload(:pull_request_closed)
-  end
-
-  def test_updating_multiple_card_when_closing_pr
-    trello.expects(:update_card).with("1234", status: :accept).once
-    trello.expects(:update_card).with("5678", status: :accept).once
-
-    process_payload(:pull_request_closed_multiple)
-  end
-
-  def test_keeping_cards_in_accepted_column_when_editing_closed_pr
-    trello.expects(:update_card).with("1234", status: :finish).never
-    trello.expects(:update_card).with("1234", status: :accept).once
-
-    process_payload(:closed_pull_request_edited)
   end
 
   def test_removing_wip_label
@@ -193,10 +165,6 @@ class ProcessorTest < Minitest::Test
         additions: 1,
         deletions: 1
       }
-    end
-
-    def trello
-      @_trello ||= stub
     end
 
     def last_notification
