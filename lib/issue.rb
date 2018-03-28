@@ -24,10 +24,6 @@ class Issue
     state == "closed"
   end
 
-  def card_ids
-    delivers_meta_info.scan(/(?:#(\w+))/).flatten
-  end
-
   def peer_reviewers
     reviewers.without(user, *User.bots)
   end
@@ -68,10 +64,6 @@ class Issue
 
     def title_tags
       title.scan(/\[(\w+)\]/).flatten
-    end
-
-    def delivers_meta_info
-      title[/\[Delivers.+\]/] || ""
     end
 
     def extended_pr_data
