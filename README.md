@@ -29,6 +29,7 @@ CP-8 will:
 
 ## Options
 
-```
+```ruby
 /payload?config[stale_issue_weeks]=6 # Set stale issue cutoff to 6 weeks
+/payload?config[review_channel]=6 # Send review requests/updates to specified Slack channel
 ```
