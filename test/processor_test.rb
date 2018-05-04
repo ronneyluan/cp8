@@ -93,7 +93,7 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_notifying_new_large_pull_requests
-    github.stubs(:pull_request).returns(additions: 51)
+    github.stubs(:pull_request).returns(additions: 101)
     process_payload(:pull_request)
 
     assert_equal ":mag: Review", last_notification[:text]

@@ -3,7 +3,7 @@ require "user"
 
 class Issue
   WIP_TAG = "WIP"
-  SMALL_PR_ADDITION_LIMIT = 50
+  SMALL_PR_ADDITION_LIMIT = 100
 
   attr_reader :number, :html_url, :repo, :title
 
