@@ -2,6 +2,7 @@ require "test_helper"
 
 class ProcessorTest < Minitest::Test
   CP8_USER_ID = 9999
+  PROJECT_COLUMN_ID = 49
 
   class TestChatClient
     cattr_accessor :deliveries do
@@ -21,7 +22,7 @@ class ProcessorTest < Minitest::Test
   end
 
   def test_closing_stale_prs
-    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [{ number: 1 }]))
+    github.expects(:search_issues).with("repo:balvig/cp-8 is:open updated:<1969-12-04T00:00:00+00:00").once.returns(stub(items: [{ number: 1, id: 1 }]))
     github.expects(:add_comment)
     github.expects(:close_issue).with("balvig/cp-8", 1)
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Icebox]).once
@@ -64,6 +65,24 @@ class ProcessorTest < Minitest::Test
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:WIP]).once
 
     process_payload(:pull_request_added_wip)
+  end
+
+  def test_adding_new_issues_to_project
+    github.expects(:create_project_card).with(49, content_id: 137013866, content_type: "Issue"). once
+
+    process_payload(:issue_wip, config: { project_column_id: PROJECT_COLUMN_ID } )
+  end
+
+  def test_adding_new_issues_to_project_if_column_not_in_project
+    github.expects(:create_project_card).raises(Octokit::NotFound)
+
+    process_payload(:issue_wip, config: { project_column_id: PROJECT_COLUMN_ID } )
+  end
+
+  def test_not_adding_new_pr_to_project
+    github.expects(:create_project_card).never
+
+    process_payload(:pull_request, config: { project_column_id: PROJECT_COLUMN_ID } )
   end
 
   def test_not_adding_labels_to_plain_issues
@@ -138,15 +157,15 @@ class ProcessorTest < Minitest::Test
 
   private
 
-    def process_payload(file)
-      process create_payload(file)
+    def process_payload(file, config: default_config)
+      process(create_payload(file), config: config)
     end
 
-    def process(payload)
+    def process(payload, config: default_config)
       Processor.new(payload, config: config).process
     end
 
-    def config
+    def default_config
       { review_channel: "#reviews" }
     end
 
