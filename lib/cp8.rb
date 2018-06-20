@@ -21,7 +21,7 @@ class Cp8
     private
 
       def octokit
-        raise "OCTOKIT_ACCESS_TOKEN not set" unless ENV["OCTOKIT_ACCESS_TOKEN"]
+        raise "OCTOKIT_ACCESS_TOKEN not set. Get one from https://github.com/settings/tokens" unless ENV["OCTOKIT_ACCESS_TOKEN"]
         @_octokit ||= Octokit::Client.new(access_token: ENV["OCTOKIT_ACCESS_TOKEN"])
       end
 
