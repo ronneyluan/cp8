@@ -111,6 +111,13 @@ class ProcessorTest < Minitest::Test
     assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].first[:value]
   end
 
+  def test_notifying_recycle_dismissals
+    process_payload(:review_dismissed)
+
+    assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
+    assert_equal "submitter", last_notification_attachment[:author_name]
+  end
+
   def test_notifying_new_large_pull_requests
     github.stubs(:pull_request).returns(additions: 101)
     process_payload(:pull_request)

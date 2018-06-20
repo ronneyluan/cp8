@@ -35,7 +35,7 @@ class Payload
   end
 
   def recycle_request?
-    action.created? && comment&.recycle_request?
+    added_recycle_comment? || dismissed_review?
   end
 
   def review_action?
@@ -86,5 +86,13 @@ class Payload
 
     def previous_title
       data.fetch(:changes, {}).fetch(:title, {}).fetch(:from, {}) || ""
+    end
+
+    def added_recycle_comment?
+      action.created? && comment&.recycle_request?
+    end
+
+    def dismissed_review?
+      action == "dismissed"
     end
 end

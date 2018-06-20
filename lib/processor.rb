@@ -58,7 +58,7 @@ class Processor
       return unless payload.recycle_request?
 
       log "Notifying recycle request"
-      notify RecycleNotification.new(issue: payload.issue, comment: payload.comment)
+      notify RecycleNotification.new(issue: payload.issue, trigger: payload.comment || payload.review)
     end
 
     def notify_review
