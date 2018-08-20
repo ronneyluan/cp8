@@ -5,11 +5,12 @@ class Issue
   WIP_TAG = "WIP"
   SMALL_PR_ADDITION_LIMIT = 100
 
-  attr_reader :id, :number, :html_url, :repo, :title
+  attr_reader :id, :number, :html_url, :repo, :title, :body
 
-  def initialize(id:, number:, repo:, title: nil, state: nil, html_url: nil, user: nil, **other)
+  def initialize(id:, number:, repo:, title: nil, body: nil, state: nil, html_url: nil, user: nil, **other)
     @id = id
     @title = title
+    @body = body
     @state = state
     @number = number
     @html_url = html_url
