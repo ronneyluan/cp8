@@ -10,6 +10,10 @@ class RecycleNotification < ReviewRequestNotification
     )
   end
 
+  def attachments
+    []
+  end
+
   private
 
     attr_reader :trigger

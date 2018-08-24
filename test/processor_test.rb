@@ -106,16 +106,12 @@ class ProcessorTest < Minitest::Test
     process_payload(:comment_recycle)
 
     assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
-    assert_equal "balvig", last_notification_attachment[:author_name]
-    assert_equal "https://avatars.githubusercontent.com/u/104138?v=3&size=16", last_notification_attachment[:author_icon]
-    assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].first[:value]
   end
 
   def test_notifying_recycle_dismissals
     process_payload(:review_dismissed)
 
     assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
-    assert_equal "submitter", last_notification_attachment[:author_name]
   end
 
   def test_notifying_new_large_pull_requests
