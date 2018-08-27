@@ -8,7 +8,7 @@ class ReviewRequestNotification < Notification
   end
 
   def text
-    "#{mention_text}:#{icon}: #{action}"
+    ":#{icon}: #{action}#{mention_text}"
   end
 
   def attachments
@@ -22,7 +22,7 @@ class ReviewRequestNotification < Notification
     def mention_text
       return if mentions.empty?
 
-      mentions.join(", ") + " "
+      " - " + mentions.join(", ") + " please"
     end
 
     def mentions

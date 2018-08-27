@@ -105,7 +105,7 @@ class ProcessorTest < Minitest::Test
 
     process_payload(:comment_recycle)
 
-    assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
+    assert_equal ":recycle: Review changes - <@reviewer> please", last_notification[:text]
     assert_equal "balvig", last_notification_attachment[:author_name]
     assert_equal "https://avatars.githubusercontent.com/u/104138?v=3&size=16", last_notification_attachment[:author_icon]
     assert_equal "<https://github.com/balvig/cp-8/pull/1#issuecomment-189682850|#1 Test for PR>", last_notification_attachment[:fields].first[:value]
@@ -114,7 +114,7 @@ class ProcessorTest < Minitest::Test
   def test_notifying_recycle_dismissals
     process_payload(:review_dismissed)
 
-    assert_equal "<@reviewer> :recycle: Review changes", last_notification[:text]
+    assert_equal ":recycle: Review changes - <@reviewer> please", last_notification[:text]
     assert_equal "submitter", last_notification_attachment[:author_name]
   end
 
@@ -122,15 +122,15 @@ class ProcessorTest < Minitest::Test
     github.stubs(:pull_request).returns(additions: 101)
     process_payload(:pull_request)
 
-    assert_equal ":mag: Review", last_notification[:text]
+    assert_equal ":mag: New PR", last_notification[:text]
   end
 
   def test_notifying_new_small_pull_requests_without_mention
     github.stubs(:pull_request).returns(additions: 5, deletions: 5)
     process_payload(:pull_request)
 
-    assert_equal ":mag: Quick Review", last_notification[:text]
-    assert_equal ":mag: Quick Review", last_notification[:fallback]
+    assert_equal ":mag: Small PR", last_notification[:text]
+    assert_equal ":mag: Small PR", last_notification[:fallback]
     assert_equal "+5 / -5", last_notification_attachment[:fields].last[:value]
   end
 
@@ -141,13 +141,13 @@ class ProcessorTest < Minitest::Test
     )
     process_payload(:pull_request)
 
-    assert_equal "<@reviewer> :mag: Quick Review", last_notification[:text]
+    assert_equal ":mag: Small PR - <@reviewer> please", last_notification[:text]
   end
 
   def test_notifying_unwipped_issues
     process_payload(:pull_request_removed_wip)
 
-    assert_equal ":mag: Quick Review", last_notification[:text]
+    assert_equal ":mag: Small PR", last_notification[:text]
   end
 
   def test_notifying_requested_changes
@@ -180,7 +180,7 @@ class ProcessorTest < Minitest::Test
     end
 
     def default_config
-      { review_channel: "#reviews" }
+      { review_channel: "#notification-test" }
     end
 
     def create_payload(file)

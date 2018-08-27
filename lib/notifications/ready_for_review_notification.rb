@@ -12,9 +12,9 @@ class ReadyForReviewNotification < ReviewRequestNotification
 
     def action
       if issue.small?
-        "Quick Review"
+        "Small PR"
       else
-        "Review"
+        "New PR"
       end
     end
 
