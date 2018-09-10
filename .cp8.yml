@@ -1,4 +1,0 @@
-stale_issue_weeks: 6 # Set stale issue cutoff to 6 weeks
-review_channel: reviews # Send review requests/updates to specified Slack channel
-project_column_id: 2907203 # Automatically add new issues to a project column
-move_to_prefix:  move-to # Move issue to other repo when labeled with prefix, ie `move-to:cookpad/cp8`
