@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ProcessorTest < Minitest::Test
-  CP8_USER_ID = 9999
   PROJECT_COLUMN_ID = 49
 
   class TestChatClient
@@ -26,6 +25,12 @@ class ProcessorTest < Minitest::Test
     github.expects(:add_comment)
     github.expects(:close_issue).with("balvig/cp-8", 1)
     github.expects(:add_labels_to_an_issue).with("balvig/cp-8", 1, [:Icebox]).once
+
+    process_payload(:issue_wip, config: { stale_issue_weeks: 4 } )
+  end
+
+  def test_not_closing_stales_prs_if_not_configrued
+    github.expects(:search_issues).never
 
     process_payload(:issue_wip)
   end
@@ -194,7 +199,6 @@ class ProcessorTest < Minitest::Test
 
     def build_fake_github
       stub(
-        user: stub(id: CP8_USER_ID),
         label: true,
         add_label: true,
         labels_for_issue: [],
