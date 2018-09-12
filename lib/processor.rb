@@ -90,8 +90,10 @@ class Processor
     end
 
     def close_stale_issues
-      log "Closing stale issues"
-      IssueCloser.new(repo, weeks: config.stale_issue_weeks).run
+      if payload.action.opened?
+        log "Closing stale issues"
+        IssueCloser.new(repo, weeks: config.stale_issue_weeks).run
+      end
     end
 
     def notify(notification)
