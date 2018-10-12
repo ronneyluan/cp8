@@ -54,7 +54,7 @@ class IssueDelegator
 
     def error_message
       <<~TEXT
-        [BOOooop...] I tried to move this issue to #{target_repo}, but couldn't.
+        [BOOooop...] I tried to move this issue to `#{target_repo}`, but couldn't.
 
         Maybe I don't have the right permissions?
 
