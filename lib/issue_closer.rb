@@ -27,10 +27,6 @@ class IssueCloser
         This issue/PR hasn't been updated for _#{weeks} weeks_ so closing for now.
 
         Feel free to re-open in the future if/when it becomes relevant again! :heart:
-
-        ---
-
-        _Configure by adding `?config[stale_issue_weeks]=...` to the webhook._
       TEXT
     end
 
