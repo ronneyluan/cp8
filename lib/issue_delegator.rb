@@ -56,9 +56,9 @@ class IssueDelegator
       <<~TEXT
         [BOOooop...] I tried to move this issue to `#{target_repo}`, but couldn't.
 
-        Maybe I don't have the right permissions?
+        Maybe I don't have the right permissions, or the repo doesn't exist?
 
-        Try adding me to that repo and try again!
+        Double check the label name and whether I've been added to that repo!
       TEXT
     end
 end
