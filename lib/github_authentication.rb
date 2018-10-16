@@ -16,6 +16,7 @@ class GithubAuthentication
     GITHUB_APP_IDENTIFIER = ENV["GITHUB_APP_IDENTIFIER"] || raise("GITHUB_GITHUB_APP_IDENTIFIER needs to be set")
     GITHUB_PRIVATE_KEY = ENV["GITHUB_PRIVATE_KEY"] || raise("GITHUB_PRIVATE_KEY needs to be set")
     ENCODED_PRIVATE_KEY = OpenSSL::PKey::RSA.new GITHUB_PRIVATE_KEY.gsub('\n', "\n") # convert newlines
+    TOKEN_EXPIRY = 5 * 60 # minutes
 
     def installation_token
       app_client.create_installation_access_token(payload.installation_id)[:token]
@@ -32,7 +33,7 @@ class GithubAuthentication
     def jwt_payload
       {
         iat: Time.now.to_i,
-        exp: Time.now.to_i + (10 * 60),
+        exp: Time.now.to_i + TOKEN_EXPIRY,
         iss: GITHUB_APP_IDENTIFIER
       }
     end
