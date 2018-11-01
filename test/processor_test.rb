@@ -160,7 +160,7 @@ class ProcessorTest < Minitest::Test
   def test_notifying_blocked_prs
     process_payload(:pull_request_added_blocker)
 
-    assert_equal ":zap: Blocking PR needs review - <!here> please", last_notification[:text]
+    assert_equal ":rotating_light: Blocking PR needs review - <!here> please", last_notification[:text]
   end
 
   def test_notifying_requested_changes

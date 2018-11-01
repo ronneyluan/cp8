@@ -6,7 +6,7 @@ class BlockingPrNotification < ReviewRequestNotification
   def initialize(issue:)
     super(
       issue: issue,
-      icon: :zap
+      icon: :rotating_light
     )
   end
 
