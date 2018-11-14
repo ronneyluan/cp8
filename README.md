@@ -40,3 +40,7 @@ review_channel: reviews # Send review requests/updates to specified Slack channe
 project_column_id: 49 # Automatically add new issues to a project column
 move_to_prefix:  move-to # Move issue to other repo when labeled with prefix, ie `move-to:cookpad/cp8`
 ```
+
+## CLI
+
+CP8 has a [CLI counterpart](https://github.com/cookpad/cp8_cli), that while not required, provides some extra convenience for GitHub-driven projects in addition to what the bot offers.
