@@ -2,7 +2,7 @@ require "yaml"
 
 class User
   BOT_LOGINS = %w(houndci-bot cookpad-devel)
-  MAPPINGS = YAML::load_file(File.join(__dir__, "user_mappings.yml"))
+  MAPPINGS = YAML::load_file(File.join(__dir__, "user_mappings.yml")).transform_keys(&:downcase)
   attr_reader :login
 
   def self.bots
@@ -16,7 +16,7 @@ class User
   end
 
   def initialize(login:, avatar_url: nil, **other)
-    @login = login
+    @login = login.downcase
     @avatar_url = avatar_url
   end
 

@@ -22,4 +22,9 @@ class UserTest < Minitest::Test
     user = User.new(login: "firewalker06")
     assert_equal "<@U02JXH8J4>", user.chat_name
   end
+
+  def test_chat_name_github_to_slack_mapping_case_insensitive
+    user = User.new(login: "ChrisBr")
+    assert_equal "<@WFWHS2W1M>", user.chat_name
+  end
 end
