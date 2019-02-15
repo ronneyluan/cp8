@@ -18,8 +18,6 @@ class ProcessorTest < Minitest::Test
     Time.stubs(:now).returns(Time.at(0))
     Cp8.github_client = github
     Cp8.chat_client = TestChatClient.new
-    Cp8.chat_client.deliveries.clear
-    TestChatClient.deliveries.clear
   end
 
   def test_closing_stale_prs
