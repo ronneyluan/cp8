@@ -4,8 +4,10 @@ class ProcessorTest < Minitest::Test
   PROJECT_COLUMN_ID = 49
 
   class TestChatClient
-    cattr_accessor :deliveries do
-      []
+    attr_reader :deliveries
+
+    def initialize
+      @deliveries = []
     end
 
     def ping(args = {})
