@@ -8,7 +8,7 @@ class IssueTitleTest < Minitest::Test
   end
 
   def test_title_escaping
-    title = IssueTitle.new("With <div>HTML</div> & ampersamp")
+    title = IssueTitle.new("With <div>HTML</div> & ampersand")
 
     assert_equal title.to_s, "With &lt;div&gt;HTML&lt;/div&gt; &amp; ampersamp"
   end
