@@ -44,6 +44,7 @@ project_column_id: 49 # Automatically add new issues to a project column
 Your GitHub username needs to be mapped to your Slack ID in order for CP8 to mention you:
 
 - Copy your Slack ID from your account settings
+  - In the Slack desktop application, click your name in the top left then click 'Profile & account'. On the Profile panel that opens, click the vertical ellipses button which should be below your profile photo to the right of the 'Edit Profile' button, then select 'Copy Member ID'.
 - Submit a PR to this repo to add `[github_name]: [slack_id]` to `/lib/user_mappings.yml`. See, for example, [this PR](https://github.com/cookpad/cp8/pull/68))
 
 ## CLI
