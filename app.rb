@@ -30,7 +30,7 @@ private
 
   def payload
     request.body.rewind
-    Payload.new_from_json(request.body.read)
+    Payload.new_from_json(request.body.read, config)
   end
 
   def config

@@ -48,21 +48,27 @@ class Processor
       return if payload.issue.draft?
 
       log "Notifying new pull request"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      notify ReadyForReviewNotification.new(
+        issue: payload.issue, small_pr_addition_limit: config.small_pr_addition_limit
+      )
     end
 
     def notify_ready_for_review
       return unless payload.action.ready_for_review?
 
       log "Notifying pull request ready for review"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      notify ReadyForReviewNotification.new(
+        issue: payload.issue, small_pr_addition_limit: config.small_pr_addition_limit
+      )
     end
 
     def notify_unwip
       return unless payload.unwip_action?
 
       log "Notifying unwip"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      notify ReadyForReviewNotification.new(
+        issue: payload.issue, small_pr_addition_limit: config.small_pr_addition_limit
+      )
     end
 
     def notify_blocker
