@@ -1,17 +1,20 @@
 require "notifications/review_request_notification"
 
 class ReadyForReviewNotification < ReviewRequestNotification
-  def initialize(issue:)
+  def initialize(issue:, mention_threshold:)
     super(
       issue: issue,
       icon: :mag
     )
+    @mention_threshold = mention_threshold
   end
 
   private
 
+    attr_reader :mention_threshold
+
     def action
-      if issue.small?
+      if small_pr?
         "Small PR"
       else
         "New PR"
@@ -19,7 +22,7 @@ class ReadyForReviewNotification < ReviewRequestNotification
     end
 
     def mentions
-      if issue.small?
+      if small_pr?
         requested_reviewers
       else
         []
@@ -28,5 +31,9 @@ class ReadyForReviewNotification < ReviewRequestNotification
 
     def requested_reviewers
       @_requested_reviewers ||= issue.requested_reviewers.map(&:chat_name)
+    end
+
+    def small_pr?
+      issue.additions <= mention_threshold
     end
 end

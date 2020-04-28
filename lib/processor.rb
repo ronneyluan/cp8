@@ -46,21 +46,21 @@ class Processor
       return if payload.issue.draft?
 
       log "Notifying new pull request"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      send_ready_for_review_notification
     end
 
     def notify_ready_for_review
       return unless payload.action.ready_for_review?
 
       log "Notifying pull request ready for review"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      send_ready_for_review_notification
     end
 
     def notify_unwip
       return unless payload.unwip_action?
 
       log "Notifying unwip"
-      notify ReadyForReviewNotification.new(issue: payload.issue)
+      send_ready_for_review_notification
     end
 
     def notify_blocker
@@ -101,6 +101,12 @@ class Processor
         log "Closing stale issues"
         IssueCloser.new(repo, weeks: config.stale_issue_weeks).run
       end
+    end
+
+    def send_ready_for_review_notification
+      notify ReadyForReviewNotification.new(
+        issue: payload.issue, mention_threshold: config.mention_threshold
+      )
     end
 
     def notify(notification)
