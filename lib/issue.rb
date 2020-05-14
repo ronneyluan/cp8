@@ -45,10 +45,6 @@ class Issue
     User.from_resource(user_resource)
   end
 
-  def small?(mention_threshold)
-    additions <= mention_threshold
-  end
-
   def additions
     extended_pr_data[:additions]
   end
