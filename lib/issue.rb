@@ -45,8 +45,8 @@ class Issue
     User.from_resource(user_resource)
   end
 
-  def small?(small_pr_addition_limit)
-    additions <= small_pr_addition_limit
+  def small?(mention_threshold)
+    additions <= mention_threshold
   end
 
   def additions

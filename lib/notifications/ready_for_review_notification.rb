@@ -1,20 +1,20 @@
 require "notifications/review_request_notification"
 
 class ReadyForReviewNotification < ReviewRequestNotification
-  def initialize(issue:, small_pr_addition_limit:)
+  def initialize(issue:, mention_threshold:)
     super(
       issue: issue,
       icon: :mag
     )
-    @small_pr_addition_limit = small_pr_addition_limit
+    @mention_threshold = mention_threshold
   end
 
   private
 
-    attr_reader :small_pr_addition_limit
+    attr_reader :mention_threshold
 
     def action
-      if issue.small?(small_pr_addition_limit)
+      if issue.small?(mention_threshold)
         "Small PR"
       else
         "New PR"
@@ -22,7 +22,7 @@ class ReadyForReviewNotification < ReviewRequestNotification
     end
 
     def mentions
-      if issue.small?(small_pr_addition_limit)
+      if issue.small?(mention_threshold)
         requested_reviewers
       else
         []

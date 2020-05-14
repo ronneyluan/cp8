@@ -105,7 +105,7 @@ class Processor
 
     def send_ready_for_review_notification
       notify ReadyForReviewNotification.new(
-        issue: payload.issue, small_pr_addition_limit: config.small_pr_addition_limit
+        issue: payload.issue, mention_threshold: config.mention_threshold
       )
     end
 

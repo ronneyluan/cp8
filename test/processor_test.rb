@@ -132,19 +132,19 @@ class ProcessorTest < Minitest::Test
     assert_equal ":mag: New PR", last_notification[:text]
   end
 
-  def test_notifying_new_large_pull_requests_with_custom_small_pr_addition_limit
+  def test_notifying_new_large_pull_requests_with_custom_mention_threshold
     github.stubs(:pull_request).returns(additions: 50)
-    process_payload(:pull_request, config: { small_pr_addition_limit: 49, review_channel: "#notification-test" } )
+    process_payload(:pull_request, config: { mention_threshold: 49, review_channel: "#notification-test" } )
 
     assert_equal ":mag: New PR", last_notification[:text]
   end
 
-  def test_notifying_new_small_pull_requests_with_custom_small_pr_addition_limit_and_with_mention
+  def test_notifying_new_small_pull_requests_with_custom_mention_threshold_and_with_mention
     github.stubs(:pull_request).returns(additions: 150, deletions: 75)
     github.expects(:pull_request_review_requests).with("balvig/cp-8", 1).once.returns(
       stub(users: [{ login: "reviewer" }])
     )
-    process_payload(:pull_request, config: { small_pr_addition_limit: 200, review_channel: "#notification-test" } )
+    process_payload(:pull_request, config: { mention_threshold: 200, review_channel: "#notification-test" } )
 
     assert_equal ":mag: Small PR - <@reviewer> please", last_notification[:text]
   end
