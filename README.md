@@ -37,6 +37,7 @@ Add `.cp8.yml` file to root of project, and turn on features by configuring them
 stale_issue_weeks: 4 # Set stale issue cutoff to 4 weeks
 review_channel: reviews # Send review requests/updates to specified Slack channel
 project_column_id: 49 # Automatically add new issues to a project column
+small_pr_addition_limit: 100 # Set the small PR addition limit to get notified with mention, By default it's 100
 ```
 
 ## User Mapping

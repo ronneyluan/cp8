@@ -3,8 +3,6 @@ require "issue_title"
 require "user"
 
 class Issue
-  SMALL_PR_ADDITION_LIMIT = 100
-
   attr_reader :id, :number, :html_url, :repo, :title, :body
 
   def initialize(id:, number:, repo:, title: nil, body: nil, state: nil, draft: false, html_url: nil, user: nil, **other)
@@ -47,8 +45,8 @@ class Issue
     User.from_resource(user_resource)
   end
 
-  def small?
-    additions <= SMALL_PR_ADDITION_LIMIT
+  def small?(small_pr_addition_limit)
+    additions <= small_pr_addition_limit
   end
 
   def additions
