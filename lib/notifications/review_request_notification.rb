@@ -17,7 +17,7 @@ class ReviewRequestNotification < Notification
 
   private
 
-    attr_reader :issue, :icon, :action, :mentions, :link
+    attr_reader :issue, :icon, :link
 
     def mention_text
       return if mentions.empty?

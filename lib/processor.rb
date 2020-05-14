@@ -10,8 +10,6 @@ require "notifications/review_complete_notification"
 require "notifications/ready_for_review_notification"
 
 class Processor
-  cattr_accessor :config
-
   def initialize(payload, config: {})
     @payload = payload
     @config = Configuration.new(config.symbolize_keys)
